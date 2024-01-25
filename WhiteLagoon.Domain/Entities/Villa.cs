@@ -1,5 +1,8 @@
 ﻿namespace WhiteLagoon.Domain.Entities;
 
+/// <summary>
+/// Model class for the Villa with some properties.
+/// </summary>
 public class Villa
 {
     public int Id { get; set; }
