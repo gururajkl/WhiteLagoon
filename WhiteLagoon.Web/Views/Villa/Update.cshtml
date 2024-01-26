@@ -1,0 +1,79 @@
+﻿@{
+    ViewData["Title"] = "Update Villa";
+}
+@model Villa
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header border ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Update Villa - @Model.Name</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body border rounded-bottom p-4">
+        <form class="row" method="post">
+            <div class="p-3">
+                <input asp-for="Id" hidden />
+
+                <div class="text-danger" asp-validation-summary="None"></div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="Name" class="form-control border shadow" />
+                    <label class="form-label" asp-for="Name"></label>
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <textarea asp-for="Description" class="form-control border shadow"></textarea>
+                    <label class="form-label" asp-for="Description"></label>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="Price" class="form-control border shadow" />
+                    <label class="form-label" asp-for="Price"></label>
+                    <span asp-validation-for="Price" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="Sqft" class="form-control border shadow" />
+                    <label class="form-label" asp-for="Sqft"></label>
+                    <span asp-validation-for="Sqft" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="Occupancy" class="form-control border shadow" />
+                    <label class="form-label" asp-for="Occupancy"></label>
+                    <span asp-validation-for="Occupancy" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="ImageUrl" class="form-control border shadow" />
+                    <label class="form-label" asp-for="ImageUrl"></label>
+                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-outline-warning w-100">
+                            <i class="bi bi-check-circle"></i> Update
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-action="Index" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}
