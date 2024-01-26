@@ -42,9 +42,11 @@ public class VillaController : Controller
         if (ModelState.IsValid)
         {
             context.Villas.Add(villa);
+            TempData["success"] = $"Villa {villa.Name} created successfully";
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        TempData["error"] = $"There is some problem please review";
         return View(villa);
     }
     #endregion
@@ -63,7 +65,6 @@ public class VillaController : Controller
         return RedirectToAction("NotFoundPage", "Home");
     }
 
-
     [HttpPost]
     public IActionResult Update(Villa villa)
     {
@@ -76,9 +77,11 @@ public class VillaController : Controller
         if (ModelState.IsValid)
         {
             context.Villas.Update(villa);
+            TempData["success"] = $"Villa {villa.Name} updated successfully";
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        TempData["error"] = $"There is some problem please review";
         return View(villa);
     }
     #endregion
@@ -102,6 +105,7 @@ public class VillaController : Controller
 
         if (villaToDelete is not null)
         {
+            TempData["success"] = $"Villa {villa.Name} Deleted successfully";
             context.Villas.Remove(villaToDelete);
             context.SaveChanges();
             return RedirectToAction(nameof(Index));
