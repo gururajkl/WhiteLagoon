@@ -1,0 +1,52 @@
+﻿@model List<VillaNumber>
+@{
+    ViewData["Title"] = "Villa Numbers";
+}
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header border ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Villa Number List</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body border rounded-bottom p-4">
+        <div class="row pb-4">
+            <div class="col-6 offset-6 text-end">
+                <a asp-controller="VillaNumber" asp-action="Create" class="btn btn-outline-light">
+                    <i class="bi bi-plus-circle"></i> Create new villa number
+                </a>
+            </div>
+        </div>
+
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>Villa Name</th>
+                    <th>Villa Number</th>
+                    <th>Special Details</th>
+                    <th></th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var villaNumber in Model)
+                {
+                    <tr>
+                        <td>@villaNumber.Villa!.Name</td>
+                        <td>@villaNumber.Villa_Number</td>
+                        <td>@villaNumber.SpecialDetails</td>
+                        <td>
+                            <div class="btn-group w-75" role="group">
+                                <a class="btn btn-outline-warning" asp-action="Update" asp-controller="VillaNumber" asp-route-Id="@villaNumber.Villa_Number"><i class="bi bi-pencil-fill"></i> Modify</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-controller="VillaNumber" asp-route-Id="@villaNumber.Villa_Number"><i class="bi bi-trash"></i> Delete</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

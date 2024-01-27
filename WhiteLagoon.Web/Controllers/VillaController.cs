@@ -105,7 +105,7 @@ public class VillaController : Controller
 
         if (villaToDelete is not null)
         {
-            TempData["success"] = $"Villa {villa.Name} Deleted successfully";
+            TempData["success"] = $"Villa {villaToDelete.Name} Deleted successfully";
             context.Villas.Remove(villaToDelete);
             context.SaveChanges();
             return RedirectToAction(nameof(Index));

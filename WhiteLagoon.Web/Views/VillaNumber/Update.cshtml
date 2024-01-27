@@ -1,0 +1,62 @@
+﻿@{
+    ViewData["Title"] = "Update Villa Number";
+}
+@model VillaNumberViewModel
+
+<div class="w-100 card border-0 p-4">
+    <div class="card-header border ml-0 py-3">
+        <div class="row">
+            <div class="col-12 text-center">
+                <h2 class="text-white py-2">Update Villa Number</h2>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body border rounded-bottom p-4">
+        <form class="row" method="post">
+            <input asp-for="VillaNumber!.Villa_Number" hidden />
+            <div class="p-3">
+                <div class="text-danger" asp-validation-summary="None"></div>
+
+                <div class="py-1 col-12 form-floating">
+                    <select class="form-select shadow border" asp-for="@Model.VillaNumber!.VillaId" asp-items="@Model.VillaList">
+                        <option selected>Select Villa</option>
+                    </select>
+                    <label class="form-label" asp-for="VillaNumber!.VillaId"></label>
+                    <span asp-validation-for="VillaNumber!.VillaId" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input disabled asp-for="VillaNumber!.Villa_Number" class="form-control border shadow" />
+                    <label class="form-label" asp-for="VillaNumber!.Villa_Number"></label>
+                    <span asp-validation-for="VillaNumber!.Villa_Number" class="text-danger"></span>
+                </div>
+
+                <div class="py-1 col-12 form-floating">
+                    <input asp-for="VillaNumber!.SpecialDetails" class="form-control border shadow" />
+                    <label class="form-label" asp-for="VillaNumber!.SpecialDetails"></label>
+                    <span asp-validation-for="VillaNumber!.SpecialDetails" class="text-danger"></span>
+                </div>
+
+                <div class="row pt-2">
+                    <div class="col-6 col-md-3">
+                        <button type="submit" class="btn btn-outline-success w-100">
+                            <i class="bi bi-check-circle"></i> Update
+                        </button>
+                    </div>
+                    <div class="col-6 col-md-3">
+                        <a asp-action="Index" class="btn btn-outline-danger w-100">
+                            <i class="bi bi-x-circle"></i> Cancel
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

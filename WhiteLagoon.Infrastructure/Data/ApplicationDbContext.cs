@@ -13,6 +13,7 @@ public class ApplicationDbContext : DbContext
 
     // DbSets to create a table for the model class.
     public DbSet<Villa> Villas { get; set; }
+    public DbSet<VillaNumber> VillaNumbers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -54,6 +55,22 @@ public class ApplicationDbContext : DbContext
                 CreatedDate = DateTime.Now,
                 UpdatedDate = DateTime.Now,
             }
-         );
+        );
+
+        // Seed some data to the VillaNumber entity.
+        modelBuilder.Entity<VillaNumber>().HasData(
+            new VillaNumber { Villa_Number = 101, VillaId = 1 },
+            new VillaNumber { Villa_Number = 102, VillaId = 1 },
+            new VillaNumber { Villa_Number = 103, VillaId = 1 },
+            new VillaNumber { Villa_Number = 104, VillaId = 1 },
+            new VillaNumber { Villa_Number = 201, VillaId = 2 },
+            new VillaNumber { Villa_Number = 202, VillaId = 2 },
+            new VillaNumber { Villa_Number = 203, VillaId = 2 },
+            new VillaNumber { Villa_Number = 204, VillaId = 2 },
+            new VillaNumber { Villa_Number = 301, VillaId = 3 },
+            new VillaNumber { Villa_Number = 302, VillaId = 3 },
+            new VillaNumber { Villa_Number = 303, VillaId = 3 },
+            new VillaNumber { Villa_Number = 304, VillaId = 3 }
+        );
     }
 }
