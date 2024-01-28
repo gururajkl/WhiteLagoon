@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WhiteLagoon.Application.Common.Interfaces;
 using WhiteLagoon.Domain.Entities;
-using WhiteLagoon.Infrastructure.Data;
 
 namespace WhiteLagoon.Web.Controllers;
 
@@ -9,17 +9,16 @@ namespace WhiteLagoon.Web.Controllers;
 /// </summary>
 public class VillaController : Controller
 {
-    // Injection of this type.
-    private readonly ApplicationDbContext context;
+    private readonly IVillaRepository villaRepository;
 
-    public VillaController(ApplicationDbContext context)
+    public VillaController(IVillaRepository villaRepository)
     {
-        this.context = context;
+        this.villaRepository = villaRepository;
     }
 
     public IActionResult Index()
     {
-        List<Villa> villas = context.Villas.ToList();
+        IEnumerable<Villa> villas = villaRepository.GetAllVillas();
         return View(villas);
     }
 
@@ -41,9 +40,9 @@ public class VillaController : Controller
 
         if (ModelState.IsValid)
         {
-            context.Villas.Add(villa);
+            villaRepository.AddVilla(villa);
             TempData["success"] = $"Villa {villa.Name} created successfully";
-            context.SaveChanges();
+            villaRepository.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"There is some problem please review";
@@ -55,7 +54,7 @@ public class VillaController : Controller
     [HttpGet]
     public IActionResult Update(int Id)
     {
-        Villa? villaFromDb = context.Villas.FirstOrDefault(v => v.Id == Id);
+        Villa? villaFromDb = villaRepository.GetVilla(v => v.Id == Id);
         if (villaFromDb != null)
         {
             return View(villaFromDb);
@@ -76,9 +75,9 @@ public class VillaController : Controller
 
         if (ModelState.IsValid)
         {
-            context.Villas.Update(villa);
+            villaRepository.UpdateVilla(villa);
             TempData["success"] = $"Villa {villa.Name} updated successfully";
-            context.SaveChanges();
+            villaRepository.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"There is some problem please review";
@@ -90,7 +89,7 @@ public class VillaController : Controller
     [HttpGet]
     public IActionResult Delete(int Id)
     {
-        Villa? villaFromDb = context.Villas.FirstOrDefault(v => v.Id == Id);
+        Villa? villaFromDb = villaRepository.GetVilla(v => v.Id == Id);
         if (villaFromDb != null)
         {
             return View(villaFromDb);
@@ -101,13 +100,13 @@ public class VillaController : Controller
     [HttpPost]
     public IActionResult Delete(Villa villa)
     {
-        Villa villaToDelete = context.Villas.FirstOrDefault(v => v.Id == villa.Id)!;
+        Villa villaToDelete = villaRepository.GetVilla(v => v.Id == villa.Id)!;
 
         if (villaToDelete is not null)
         {
             TempData["success"] = $"Villa {villaToDelete.Name} Deleted successfully";
-            context.Villas.Remove(villaToDelete);
-            context.SaveChanges();
+            villaRepository.DeleteVilla(villaToDelete);
+            villaRepository.Save();
             return RedirectToAction(nameof(Index));
         }
         return View(villa);
