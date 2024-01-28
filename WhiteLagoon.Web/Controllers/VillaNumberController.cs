@@ -29,13 +29,7 @@ public class VillaNumberController : Controller
     public IActionResult Create()
     {
         VillaNumberViewModel villaNumber = new VillaNumberViewModel();
-        IEnumerable<SelectListItem> list = context.Villas.ToList().Select(v => new SelectListItem
-        {
-            Text = v.Name,
-            Value = v.Id.ToString()
-        });
-
-        villaNumber.VillaList = list;
+        villaNumber.VillaList = GetListItems();
         return View(villaNumber);
     }
 
@@ -47,9 +41,9 @@ public class VillaNumberController : Controller
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
-        bool isVillaNumberIsUnique = context.VillaNumbers.Any(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
+        bool isVillaNumberUnique = context.VillaNumbers.Any(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
 
-        if (ModelState.IsValid && !isVillaNumberIsUnique)
+        if (ModelState.IsValid && !isVillaNumberUnique)
         {
             context.VillaNumbers.Add(villaNumberViewModel.VillaNumber!);
             TempData["success"] = $"VillaNumber created successfully";
@@ -57,18 +51,13 @@ public class VillaNumberController : Controller
             return RedirectToAction(nameof(Index));
         }
 
-        if (isVillaNumberIsUnique)
+        if (isVillaNumberUnique)
         {
             TempData["error"] = "Villa number already exists";
         }
 
         // Populate the VillaList before sending to UI.
-        IEnumerable<SelectListItem> list = context.Villas.ToList().Select(v => new SelectListItem
-        {
-            Text = v.Name,
-            Value = v.Id.ToString()
-        });
-        villaNumberViewModel.VillaList = list;
+        villaNumberViewModel.VillaList = GetListItems();
 
         return View(villaNumberViewModel);
     }
@@ -79,13 +68,8 @@ public class VillaNumberController : Controller
     public IActionResult Update(int Id)
     {
         VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
-        IEnumerable<SelectListItem> list = context.Villas.ToList().Select(v => new SelectListItem
-        {
-            Text = v.Name,
-            Value = v.Id.ToString()
-        });
 
-        villaNumberViewModel.VillaList = list;
+        villaNumberViewModel.VillaList = GetListItems();
         villaNumberViewModel.VillaNumber = context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == Id);
 
         if (villaNumberViewModel.VillaNumber is null)
@@ -116,12 +100,7 @@ public class VillaNumberController : Controller
         }
 
         // Populate the VillaList before sending to UI.
-        IEnumerable<SelectListItem> list = context.Villas.ToList().Select(v => new SelectListItem
-        {
-            Text = v.Name,
-            Value = v.Id.ToString()
-        });
-        villaNumberViewModel.VillaList = list;
+        villaNumberViewModel.VillaList = GetListItems();
 
         return View(villaNumberViewModel);
     }
@@ -132,13 +111,8 @@ public class VillaNumberController : Controller
     public IActionResult Delete(int Id)
     {
         VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
-        IEnumerable<SelectListItem> list = context.Villas.ToList().Select(v => new SelectListItem
-        {
-            Text = v.Name,
-            Value = v.Id.ToString()
-        });
 
-        villaNumberViewModel.VillaList = list;
+        villaNumberViewModel.VillaList = GetListItems();
         villaNumberViewModel.VillaNumber = context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == Id);
 
         if (villaNumberViewModel.VillaNumber != null)
@@ -164,4 +138,13 @@ public class VillaNumberController : Controller
         return View(villaNumberViewModel);
     }
     #endregion
+
+    public IEnumerable<SelectListItem> GetListItems()
+    {
+        return context.Villas.ToList().Select(v => new SelectListItem
+        {
+            Text = v.Name,
+            Value = v.Id.ToString()
+        });
+    }
 }
