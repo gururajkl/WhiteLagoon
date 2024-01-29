@@ -13,60 +13,76 @@
     </div>
 
     <div class="card-body border rounded-bottom p-4">
-        <form class="row" method="post">
-            <div class="p-3">
-                <input asp-for="Id" hidden />
+        <form class="row" method="post" enctype="multipart/form-data">
+            <div class="col-10">
+                <div class="p-3">
+                    <input asp-for="Id" hidden />
 
-                <div class="text-danger" asp-validation-summary="None"></div>
+                    <div class="text-danger" asp-validation-summary="None"></div>
 
-                <div class="py-1 col-12 form-floating">
-                    <input asp-for="Name" class="form-control border shadow" />
-                    <label class="form-label" asp-for="Name"></label>
-                    <span asp-validation-for="Name" class="text-danger"></span>
-                </div>
-
-                <div class="py-1 col-12 form-floating">
-                    <textarea asp-for="Description" class="form-control border shadow"></textarea>
-                    <label class="form-label" asp-for="Description"></label>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-
-                <div class="py-1 col-12 form-floating">
-                    <input asp-for="Price" class="form-control border shadow" />
-                    <label class="form-label" asp-for="Price"></label>
-                    <span asp-validation-for="Price" class="text-danger"></span>
-                </div>
-
-                <div class="py-1 col-12 form-floating">
-                    <input asp-for="Sqft" class="form-control border shadow" />
-                    <label class="form-label" asp-for="Sqft"></label>
-                    <span asp-validation-for="Sqft" class="text-danger"></span>
-                </div>
-
-                <div class="py-1 col-12 form-floating">
-                    <input asp-for="Occupancy" class="form-control border shadow" />
-                    <label class="form-label" asp-for="Occupancy"></label>
-                    <span asp-validation-for="Occupancy" class="text-danger"></span>
-                </div>
-
-                <div class="py-1 col-12 form-floating">
-                    <input asp-for="ImageUrl" class="form-control border shadow" />
-                    <label class="form-label" asp-for="ImageUrl"></label>
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
-                </div>
-
-                <div class="row pt-2">
-                    <div class="col-6 col-md-3">
-                        <button type="submit" class="btn btn-outline-warning w-100">
-                            <i class="bi bi-check-circle"></i>&nbsp; Update
-                        </button>
+                    <div class="py-1 col-12 form-floating">
+                        <input asp-for="Name" class="form-control border shadow" />
+                        <label class="form-label" asp-for="Name"></label>
+                        <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
-                    <div class="col-6 col-md-3">
-                        <a asp-action="Index" class="btn btn-outline-danger w-100">
-                            <i class="bi bi-x-circle"></i>&nbsp; Cancel
-                        </a>
+
+                    <div class="py-1 col-12 form-floating">
+                        <textarea style="height: fit-content;" asp-for="Description"
+                            class="form-control border shadow"></textarea>
+                        <label class="form-label" asp-for="Description"></label>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="py-1 col-12 form-floating">
+                        <input asp-for="Price" class="form-control border shadow" />
+                        <label class="form-label" asp-for="Price"></label>
+                        <span asp-validation-for="Price" class="text-danger"></span>
+                    </div>
+
+                    <div class="py-1 col-12 form-floating">
+                        <input asp-for="Sqft" class="form-control border shadow" />
+                        <label class="form-label" asp-for="Sqft"></label>
+                        <span asp-validation-for="Sqft" class="text-danger"></span>
+                    </div>
+
+                    <div class="py-1 col-12 form-floating">
+                        <input asp-for="Occupancy" class="form-control border shadow" />
+                        <label class="form-label" asp-for="Occupancy"></label>
+                        <span asp-validation-for="Occupancy" class="text-danger"></span>
+                    </div>
+
+                    <hr style="margin-top: 30px;" />
+
+                    <div class="py-1 col-12">
+                        <input asp-for="ImageUrl" class="form-control border" hidden />
+                        <label style="font-size: 14px;" class="form-label" asp-for="ImageUrl">Upload Image</label>
+                        <input style="background-color: transparent;" asp-for="Image" class="form-control border" />
+                        <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    </div>
+
+                    <div class="row pt-2">
+                        <div class="col-6 col-md-3">
+                            <button type="submit" class="btn btn-outline-warning w-100">
+                                <i class="bi bi-check-circle"></i>&nbsp; Update
+                            </button>
+                        </div>
+                        <div class="col-6 col-md-3">
+                            <a asp-action="Index" class="btn btn-outline-danger w-100">
+                                <i class="bi bi-x-circle"></i>&nbsp; Cancel
+                            </a>
+                        </div>
                     </div>
                 </div>
+            </div>
+            <div class="col-2 pt-3">
+                @if (Model.ImageUrl!.Contains("placehold"))
+                {
+                    <img src="@Model.ImageUrl" style="width: 100%; border: 1px solid #bbb9b9; border-radius: 5px" />
+                }
+                else
+                {
+                    <img src="~/@Model.ImageUrl" style="width: 100%; border: 1px solid #bbb9b9; border-radius: 5px" />
+                }
             </div>
         </form>
     </div>

@@ -37,13 +37,15 @@
                 {
                     <tr>
                         <td>@villa.Name</td>
-                        <td>@villa.Price</td>
+                        <td>@villa.Price.ToString("c")</td>
                         <td>@villa.Sqft</td>
                         <td>@villa.Occupancy</td>
                         <td>
                             <div class="btn-group w-75" role="group">
-                                <a class="btn btn-outline-warning" asp-action="Update" asp-controller="Villa" asp-route-Id="@villa.Id"><i class="bi bi-pencil-fill"></i>&nbsp; Modify</a>
-                                <a class="btn btn-outline-danger" asp-action="Delete" asp-controller="Villa" asp-route-Id="@villa.Id"><i class="bi bi-trash"></i>&nbsp; Delete</a>
+                                <a class="btn btn-outline-warning" asp-action="Update" asp-controller="Villa"
+                                    asp-route-Id="@villa.Id"><i class="bi bi-pencil-fill"></i>&nbsp; Modify</a>
+                                <a class="btn btn-outline-danger" asp-action="Delete" asp-controller="Villa"
+                                    asp-route-Id="@villa.Id"><i class="bi bi-trash"></i>&nbsp; Delete</a>
                             </div>
                         </td>
                     </tr>
