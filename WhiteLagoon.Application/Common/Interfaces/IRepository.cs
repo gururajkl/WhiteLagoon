@@ -31,4 +31,10 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <param name="T"><typeparam name="T" /> entity.</param>
     public void Delete(T entity);
+
+    /// <summary>
+    /// Used to check if the value exists of particular entity.
+    /// </summary>
+    /// <param name="filter">Lambda expression</param>
+    public bool Any(Expression<Func<T, bool>> filter);
 }

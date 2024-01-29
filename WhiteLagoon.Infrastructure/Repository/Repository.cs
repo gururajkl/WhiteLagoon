@@ -39,7 +39,7 @@ public class Repository<T> : IRepository<T> where T : class
         {
             foreach (var includeProperty in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
-                entity.Include(includeProperty);
+                entity = entity.Include(includeProperty);
             }
         }
 
@@ -60,5 +60,10 @@ public class Repository<T> : IRepository<T> where T : class
         }
 
         return entity.FirstOrDefault()!;
+    }
+
+    public bool Any(Expression<Func<T, bool>> filter)
+    {
+        return dbSet.Any(filter);
     }
 }

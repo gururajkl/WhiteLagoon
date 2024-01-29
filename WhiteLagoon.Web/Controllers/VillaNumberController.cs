@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application;
 using WhiteLagoon.Domain.Entities;
-using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Web.ViewModels;
 
 namespace WhiteLagoon.Web.Controllers;
@@ -10,17 +9,18 @@ namespace WhiteLagoon.Web.Controllers;
 public class VillaNumberController : Controller
 {
     // Injection of this type.
-    private readonly ApplicationDbContext context;
+    private readonly IUnitOfWork unitOfWork;
 
-    public VillaNumberController(ApplicationDbContext context)
+    public VillaNumberController(IUnitOfWork unitOfWork)
     {
-        this.context = context;
+        this.unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        // Include() will include the Villa to the VillaNumber as the Villa is FK.
-        List<VillaNumber> villaNumbers = context.VillaNumbers.Include(v => v.Villa).ToList();
+        // Include() will include the Villa to the VillaNumber as the Villa is Foreign Key. (Include props is case sensitive)
+         //context.VillaNumbers.Include(v => v.Villa).ToList();
+        IEnumerable<VillaNumber> villaNumbers = unitOfWork.VillaNumber.GetAll(null, "Villa");
         return View(villaNumbers);
     }
 
@@ -41,19 +41,19 @@ public class VillaNumberController : Controller
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
-        bool isVillaNumberUnique = context.VillaNumbers.Any(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
+        bool isVillaNumberUnique = unitOfWork.VillaNumber.Any(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
 
         if (ModelState.IsValid && !isVillaNumberUnique)
         {
-            context.VillaNumbers.Add(villaNumberViewModel.VillaNumber!);
-            TempData["success"] = $"VillaNumber created successfully";
-            context.SaveChanges();
+            unitOfWork.VillaNumber.Add(villaNumberViewModel.VillaNumber!);
+            TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} created successfully";
+            unitOfWork.VillaNumber.Save();
             return RedirectToAction(nameof(Index));
         }
 
         if (isVillaNumberUnique)
         {
-            TempData["error"] = "Villa number already exists";
+            TempData["error"] = $"Villa - {villaNumberViewModel.VillaNumber.Villa_Number} number already exists";
         }
 
         // Populate the VillaList before sending to UI.
@@ -70,7 +70,7 @@ public class VillaNumberController : Controller
         VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
 
         villaNumberViewModel.VillaList = GetListItems();
-        villaNumberViewModel.VillaNumber = context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == Id);
+        villaNumberViewModel.VillaNumber = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
 
         if (villaNumberViewModel.VillaNumber is null)
         {
@@ -93,15 +93,15 @@ public class VillaNumberController : Controller
 
         if (ModelState.IsValid)
         {
-            context.VillaNumbers.Update(villaNumberViewModel.VillaNumber!);
-            TempData["success"] = $"VillaNumber update successfully";
-            context.SaveChanges();
+            unitOfWork.VillaNumber.Update(villaNumberViewModel.VillaNumber!);
+            TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} updated successfully";
+            unitOfWork.VillaNumber.Save();
             return RedirectToAction(nameof(Index));
         }
 
         // Populate the VillaList before sending to UI.
         villaNumberViewModel.VillaList = GetListItems();
-
+        TempData["error"] = "Something went wrong please try again later";
         return View(villaNumberViewModel);
     }
     #endregion
@@ -113,7 +113,7 @@ public class VillaNumberController : Controller
         VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
 
         villaNumberViewModel.VillaList = GetListItems();
-        villaNumberViewModel.VillaNumber = context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == Id);
+        villaNumberViewModel.VillaNumber = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
 
         if (villaNumberViewModel.VillaNumber != null)
         {
@@ -125,13 +125,13 @@ public class VillaNumberController : Controller
     [HttpPost]
     public IActionResult Delete(VillaNumberViewModel villaNumberViewModel)
     {
-        VillaNumber? villaNumberFromDbToDelete = context.VillaNumbers.FirstOrDefault(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
+        VillaNumber? villaNumberFromDbToDelete = unitOfWork.VillaNumber.Get(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
 
         if (villaNumberFromDbToDelete is not null)
         {
-            TempData["success"] = $"VillaNumber Deleted successfully";
-            context.VillaNumbers.Remove(villaNumberFromDbToDelete);
-            context.SaveChanges();
+            TempData["success"] = $"VillaNumber - {villaNumberFromDbToDelete.Villa_Number} Deleted successfully";
+            unitOfWork.VillaNumber.Delete(villaNumberFromDbToDelete);
+            unitOfWork.VillaNumber.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"VillaNumber cannot be Deleted";
@@ -141,7 +141,7 @@ public class VillaNumberController : Controller
 
     public IEnumerable<SelectListItem> GetListItems()
     {
-        return context.Villas.ToList().Select(v => new SelectListItem
+        return unitOfWork.Villa.GetAll().Select(v => new SelectListItem
         {
             Text = v.Name,
             Value = v.Id.ToString()

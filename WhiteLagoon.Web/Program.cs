@@ -1,5 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using WhiteLagoon.Application;
 using WhiteLagoon.Application.Common.Interfaces;
+using WhiteLagoon.Infrastructure;
 using WhiteLagoon.Infrastructure.Data;
 using WhiteLagoon.Infrastructure.Repository;
 
@@ -15,7 +17,8 @@ builder.Services.AddDbContext<ApplicationDbContext>
 );
 
 // Add the dependencies.
-builder.Services.AddScoped<IVillaRepository, VillaRepository>();
+builder.Services.AddScoped<IVillaRepository, VillaRepository>(); // Not using this injection right now.
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Build all the services.
 var app = builder.Build();
