@@ -47,7 +47,7 @@ public class VillaNumberController : Controller
         {
             unitOfWork.VillaNumber.Add(villaNumberViewModel.VillaNumber!);
             TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} created successfully";
-            unitOfWork.VillaNumber.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
@@ -95,7 +95,7 @@ public class VillaNumberController : Controller
         {
             unitOfWork.VillaNumber.Update(villaNumberViewModel.VillaNumber!);
             TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} updated successfully";
-            unitOfWork.VillaNumber.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
@@ -131,7 +131,7 @@ public class VillaNumberController : Controller
         {
             TempData["success"] = $"VillaNumber - {villaNumberFromDbToDelete.Villa_Number} Deleted successfully";
             unitOfWork.VillaNumber.Delete(villaNumberFromDbToDelete);
-            unitOfWork.VillaNumber.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"VillaNumber cannot be Deleted";

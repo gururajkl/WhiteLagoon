@@ -21,4 +21,9 @@ public class UnitOfWork : IUnitOfWork
         VillaNumber = new VillaNumberRepository(context);
         Amenity = new AmenityRepository(context);
     }
+
+    public void Save()
+    {
+        context.SaveChanges();
+    }
 }

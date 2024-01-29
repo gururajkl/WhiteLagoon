@@ -45,7 +45,7 @@ namespace WhiteLagoon.Web.Controllers
             {
                 unitOfWork.Amenity.Add(amenityViewModel.Amenity);
                 TempData["success"] = $"Amentiy - {amenityViewModel.Amenity.Name} created successfully";
-                unitOfWork.Amenity.Save();
+                unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -86,7 +86,7 @@ namespace WhiteLagoon.Web.Controllers
             {
                 unitOfWork.Amenity.Update(amenityViewModel.Amenity!);
                 TempData["success"] = $"Amenity - {amenityViewModel.Amenity.Name} updated successfully";
-                unitOfWork.Amenity.Save();
+                unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
 
@@ -120,7 +120,7 @@ namespace WhiteLagoon.Web.Controllers
             {
                 TempData["success"] = $"Amenity - {amenityFromDbToDelete.Name} Deleted successfully";
                 unitOfWork.Amenity.Delete(amenityFromDbToDelete);
-                unitOfWork.Amenity.Save();
+                unitOfWork.Save();
                 return RedirectToAction(nameof(Index));
             }
             TempData["error"] = $"Amenity cannot be Deleted";

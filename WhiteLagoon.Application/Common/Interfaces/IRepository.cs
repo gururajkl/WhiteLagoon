@@ -37,9 +37,4 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <param name="filter">Lambda expression</param>
     public bool Any(Expression<Func<T, bool>> filter);
-
-    /// <summary>
-    /// Saves the changes to the database.
-    /// </summary>
-    public void Save();
 }

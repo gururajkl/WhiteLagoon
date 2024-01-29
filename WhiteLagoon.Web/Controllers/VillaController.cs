@@ -60,7 +60,7 @@ public class VillaController : Controller
 
             unitOfWork.Villa.Add(villa);
             TempData["success"] = $"Villa {villa.Name} created successfully";
-            unitOfWork.Villa.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"There is some problem please review";
@@ -116,7 +116,7 @@ public class VillaController : Controller
 
             unitOfWork.Villa.UpdateVilla(villa);
             TempData["success"] = $"Villa {villa.Name} updated successfully";
-            unitOfWork.Villa.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
         TempData["error"] = $"There is some problem please review";
@@ -155,7 +155,7 @@ public class VillaController : Controller
 
             TempData["success"] = $"Villa {villaToDelete.Name} Deleted successfully";
             unitOfWork.Villa.Delete(villaToDelete);
-            unitOfWork.Villa.Save();
+            unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
         return View(villa);
