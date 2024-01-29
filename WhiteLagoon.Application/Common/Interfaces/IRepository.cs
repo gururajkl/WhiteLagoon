@@ -5,7 +5,7 @@ namespace WhiteLagoon.Application.Common.Interfaces;
 public interface IRepository<T> where T : class
 {
     /// <summary>
-    /// Gives the <typeparam name="T" /> lists.
+    /// Gives the generic type lists.
     /// </summary>
     /// <param name="filter">Lambda expression.</param>
     /// <param name="includeProperties">The properties need to include. (Props should be case sensitive)</param>
@@ -13,7 +13,7 @@ public interface IRepository<T> where T : class
     public IEnumerable<T> GetAll(Expression<Func<T, bool>>? filter = null, string? includeProperties = null);
 
     /// <summary>
-    /// Gives the <typeparam name="T" />.
+    /// Gives the value of generic type.
     /// </summary>
     /// <param name="filter">Lambda expression.</param>
     /// <param name="includeProperties">The properties need to include.</param>
@@ -21,13 +21,13 @@ public interface IRepository<T> where T : class
     public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
 
     /// <summary>
-    /// Creates new <typeparam name="T" />.
+    /// Creates new generic entity object.
     /// </summary>
     /// <param name="T"><typeparam name="T" /> entity.</param>
     public void Add(T entity);
 
     /// <summary>
-    /// Deletes the exisiting T.
+    /// Deletes the exisiting generic entity object.
     /// </summary>
     /// <param name="T"><typeparam name="T" /> entity.</param>
     public void Delete(T entity);

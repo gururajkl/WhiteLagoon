@@ -18,7 +18,7 @@ public class VillaController : Controller
 
     public IActionResult Index()
     {
-        IEnumerable<Villa> villas = villaRepository.GetAllVillas();
+        IEnumerable<Villa> villas = villaRepository.GetAll();
         return View(villas);
     }
 
@@ -40,7 +40,7 @@ public class VillaController : Controller
 
         if (ModelState.IsValid)
         {
-            villaRepository.AddVilla(villa);
+            villaRepository.Add(villa);
             TempData["success"] = $"Villa {villa.Name} created successfully";
             villaRepository.Save();
             return RedirectToAction(nameof(Index));
@@ -54,7 +54,7 @@ public class VillaController : Controller
     [HttpGet]
     public IActionResult Update(int Id)
     {
-        Villa? villaFromDb = villaRepository.GetVilla(v => v.Id == Id);
+        Villa? villaFromDb = villaRepository.Get(v => v.Id == Id);
         if (villaFromDb != null)
         {
             return View(villaFromDb);
@@ -89,7 +89,7 @@ public class VillaController : Controller
     [HttpGet]
     public IActionResult Delete(int Id)
     {
-        Villa? villaFromDb = villaRepository.GetVilla(v => v.Id == Id);
+        Villa? villaFromDb = villaRepository.Get(v => v.Id == Id);
         if (villaFromDb != null)
         {
             return View(villaFromDb);
@@ -100,12 +100,12 @@ public class VillaController : Controller
     [HttpPost]
     public IActionResult Delete(Villa villa)
     {
-        Villa villaToDelete = villaRepository.GetVilla(v => v.Id == villa.Id)!;
+        Villa villaToDelete = villaRepository.Get(v => v.Id == villa.Id)!;
 
         if (villaToDelete is not null)
         {
             TempData["success"] = $"Villa {villaToDelete.Name} Deleted successfully";
-            villaRepository.DeleteVilla(villaToDelete);
+            villaRepository.Delete(villaToDelete);
             villaRepository.Save();
             return RedirectToAction(nameof(Index));
         }
