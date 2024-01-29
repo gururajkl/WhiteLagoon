@@ -1,8 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using WhiteLagoon.Application;
-using WhiteLagoon.Domain.Entities;
-
-namespace WhiteLagoon.Web.Controllers;
+﻿namespace WhiteLagoon.Web.Controllers;
 
 /// <summary>
 /// Villa controller used for villa CRUD.

@@ -1,10 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using WhiteLagoon.Application;
-using WhiteLagoon.Domain.Entities;
-using WhiteLagoon.Web.ViewModels;
-
-namespace WhiteLagoon.Web.Controllers;
+﻿namespace WhiteLagoon.Web.Controllers;
 
 public class VillaNumberController : Controller
 {
@@ -19,7 +13,7 @@ public class VillaNumberController : Controller
     public IActionResult Index()
     {
         // Include() will include the Villa to the VillaNumber as the Villa is Foreign Key. (Include props is case sensitive)
-         //context.VillaNumbers.Include(v => v.Villa).ToList();
+        //context.VillaNumbers.Include(v => v.Villa).ToList();
         IEnumerable<VillaNumber> villaNumbers = unitOfWork.VillaNumber.GetAll(null, "Villa");
         return View(villaNumbers);
     }

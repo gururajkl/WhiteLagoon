@@ -1,7 +1,4 @@
-﻿using System.Linq.Expressions;
-using WhiteLagoon.Domain.Entities;
-
-namespace WhiteLagoon.Application.Common.Interfaces;
+﻿namespace WhiteLagoon.Application.Common.Interfaces;
 
 /// <summary>
 /// Encapsulates the VillaRepository.

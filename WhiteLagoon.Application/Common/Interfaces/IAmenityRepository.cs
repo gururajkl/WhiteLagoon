@@ -1,6 +1,4 @@
-﻿using WhiteLagoon.Domain.Entities;
-
-namespace WhiteLagoon.Application.Common.Interfaces;
+﻿namespace WhiteLagoon.Application.Common.Interfaces;
 
 public interface IAmenityRepository : IRepository<Amenity>
 {

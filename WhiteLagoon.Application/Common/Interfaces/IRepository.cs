@@ -1,6 +1,4 @@
-﻿using System.Linq.Expressions;
-
-namespace WhiteLagoon.Application.Common.Interfaces;
+﻿namespace WhiteLagoon.Application.Common.Interfaces;
 
 public interface IRepository<T> where T : class
 {

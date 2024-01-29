@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using WhiteLagoon.Domain.Entities;
-
-namespace WhiteLagoon.Infrastructure.Data;
+﻿namespace WhiteLagoon.Infrastructure.Data;
 
 /// <summary>
 /// DB Context class of application, Implemented DbContext and sets some DbSet.

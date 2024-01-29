@@ -1,7 +1,3 @@
-using Microsoft.AspNetCore.Mvc;
-using System.Diagnostics;
-using WhiteLagoon.Domain.Entities;
-
 namespace WhiteLagoon.Web.Controllers;
 
 public class HomeController : Controller

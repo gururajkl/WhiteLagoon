@@ -1,8 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Http;
-
-namespace WhiteLagoon.Domain.Entities;
+﻿namespace WhiteLagoon.Domain.Entities;
 
 /// <summary>
 /// Model class for the Villa with some properties.
@@ -23,7 +19,7 @@ public class Villa
     public string? ImageUrl { get; set; }
     // Do not add to the database and do not map this prop.
     [NotMapped]
-    public IFormFile? Image {get; set;}
+    public IFormFile? Image { get; set; }
     public DateTime? CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
 }

@@ -1,7 +1,4 @@
-﻿using WhiteLagoon.Application.Common.Interfaces;
-using WhiteLagoon.Domain.Entities;
-
-namespace WhiteLagoon.Application;
+﻿namespace WhiteLagoon.Application;
 
 public interface IVillaNumberRepository : IRepository<VillaNumber>
 {

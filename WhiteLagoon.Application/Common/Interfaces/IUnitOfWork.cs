@@ -1,6 +1,4 @@
-﻿using WhiteLagoon.Application.Common.Interfaces;
-
-namespace WhiteLagoon.Application;
+﻿namespace WhiteLagoon.Application;
 
 /// <summary>
 /// Interface which encapsulates all the Interfaces.
@@ -11,12 +9,12 @@ public interface IUnitOfWork
     /// Villa repository which has all CRUD operations.
     /// </summary>
     public IVillaRepository Villa { get; }
-    
+
     /// <summary>
     /// Villa Number repository which has all CRUD operations.
     /// </summary>
     public IVillaNumberRepository VillaNumber { get; }
-    
+
     /// <summary>
     /// Amenity repository which has all CRUD operations.
     /// </summary>

@@ -1,9 +1,4 @@
-﻿using WhiteLagoon.Application;
-using WhiteLagoon.Application.Common.Interfaces;
-using WhiteLagoon.Infrastructure.Data;
-using WhiteLagoon.Infrastructure.Repository;
-
-namespace WhiteLagoon.Infrastructure;
+﻿namespace WhiteLagoon.Infrastructure;
 
 public class UnitOfWork : IUnitOfWork
 {

@@ -1,10 +1,3 @@
-using Microsoft.EntityFrameworkCore;
-using WhiteLagoon.Application;
-using WhiteLagoon.Application.Common.Interfaces;
-using WhiteLagoon.Infrastructure;
-using WhiteLagoon.Infrastructure.Data;
-using WhiteLagoon.Infrastructure.Repository;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.

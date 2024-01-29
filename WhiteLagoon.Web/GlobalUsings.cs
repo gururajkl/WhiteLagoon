@@ -1,0 +1,12 @@
+﻿global using Microsoft.AspNetCore.Mvc;
+global using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+global using Microsoft.AspNetCore.Mvc.Rendering;
+global using Microsoft.EntityFrameworkCore;
+global using System.Diagnostics;
+global using WhiteLagoon.Application;
+global using WhiteLagoon.Application.Common.Interfaces;
+global using WhiteLagoon.Domain.Entities;
+global using WhiteLagoon.Infrastructure;
+global using WhiteLagoon.Infrastructure.Data;
+global using WhiteLagoon.Infrastructure.Repository;
+global using WhiteLagoon.Web.ViewModels;
