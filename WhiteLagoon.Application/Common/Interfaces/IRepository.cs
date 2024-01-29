@@ -17,7 +17,7 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <param name="filter">Lambda expression.</param>
     /// <param name="includeProperties">The properties need to include.</param>
-    /// <returns>Enumerator</returns>
+    /// <returns>Enumerator of Generic type.</returns>
     public T Get(Expression<Func<T, bool>> filter, string? includeProperties = null);
 
     /// <summary>
@@ -37,4 +37,9 @@ public interface IRepository<T> where T : class
     /// </summary>
     /// <param name="filter">Lambda expression</param>
     public bool Any(Expression<Func<T, bool>> filter);
+
+    /// <summary>
+    /// Saves the changes to the database.
+    /// </summary>
+    public void Save();
 }

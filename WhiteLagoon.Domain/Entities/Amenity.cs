@@ -1,9 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using WhiteLagoon.Domain.Entities;
 
-namespace WhiteLagoon.Domain;
+namespace WhiteLagoon.Domain.Entities;
 
 public class Amenity
 {
@@ -12,6 +11,7 @@ public class Amenity
     public required string Name { get; set; }
     public string? Description { get; set; }
     [ForeignKey(nameof(Villa))]
+    [Display(Name = "Villa Name")]
     public int VillaId { get; set; }
     [ValidateNever]
     public Villa? Villa { get; set; }

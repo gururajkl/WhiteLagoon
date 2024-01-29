@@ -66,4 +66,9 @@ public class Repository<T> : IRepository<T> where T : class
     {
         return dbSet.Any(filter);
     }
+
+    public void Save()
+    {
+        context.SaveChanges();
+    }
 }

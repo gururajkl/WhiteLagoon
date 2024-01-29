@@ -13,9 +13,4 @@ public interface IVillaRepository : IRepository<Villa>
     /// </summary>
     /// <param name="villa">Villa entity.</param>
     public void UpdateVilla(Villa villa);
-
-    /// <summary>
-    /// Saves the changes to the database.
-    /// </summary>
-    public void Save();
 }

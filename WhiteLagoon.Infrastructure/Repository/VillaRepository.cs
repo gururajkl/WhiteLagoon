@@ -19,9 +19,4 @@ public class VillaRepository : Repository<Villa>, IVillaRepository
     {
         context.Update(villa);
     }
-
-    public void Save()
-    {
-        context.SaveChanges();
-    }
 }

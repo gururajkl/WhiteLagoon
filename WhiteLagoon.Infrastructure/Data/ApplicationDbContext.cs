@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using WhiteLagoon.Domain;
 using WhiteLagoon.Domain.Entities;
 
 namespace WhiteLagoon.Infrastructure.Data;

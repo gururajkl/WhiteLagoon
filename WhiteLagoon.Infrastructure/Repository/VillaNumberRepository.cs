@@ -14,11 +14,6 @@ public class VillaNumberRepository : Repository<VillaNumber>, IVillaNumberReposi
         this.context = context;
     }
 
-    public void Save()
-    {
-        context.SaveChanges();
-    }
-
     public void Update(VillaNumber villaNumber)
     {
         context.VillaNumbers.Update(villaNumber);

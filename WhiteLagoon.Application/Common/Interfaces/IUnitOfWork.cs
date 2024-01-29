@@ -11,5 +11,12 @@ public interface IUnitOfWork
     /// Villa repository which has all CRUD operations.
     /// </summary>
     public IVillaRepository Villa { get; }
+    /// <summary>
+    /// Villa Number repository which has all CRUD operations.
+    /// </summary>
     public IVillaNumberRepository VillaNumber { get; }
+    /// <summary>
+    /// Amenity repository which has all CRUD operations.
+    /// </summary>
+    public IAmenityRepository Amenity { get; }
 }
