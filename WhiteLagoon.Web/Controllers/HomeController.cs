@@ -2,16 +2,22 @@ namespace WhiteLagoon.Web.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> logger;
+    private readonly IUnitOfWork unitOfWork;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(IUnitOfWork unitOfWork)
     {
-        this.logger = logger;
+        this.unitOfWork = unitOfWork;
     }
 
     public IActionResult Index()
     {
-        return View();
+        HomeViewModel homeViewModel = new()
+        {
+            VillaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
+            Nights = 1,
+            CheckInDate = DateOnly.FromDateTime(DateTime.Now)
+        };
+        return View(homeViewModel);
     }
 
     public IActionResult Privacy()

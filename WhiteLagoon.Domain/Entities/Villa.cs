@@ -22,4 +22,7 @@ public class Villa
     public IFormFile? Image { get; set; }
     public DateTime? CreatedDate { get; set; }
     public DateTime? UpdatedDate { get; set; }
+    // Navigation property.
+    [ValidateNever]
+    public IEnumerable<Amenity>? VillaAmenity { get; set; }
 }
