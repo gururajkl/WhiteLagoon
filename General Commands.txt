@@ -3,3 +3,6 @@
 
 * To create new migration in case of command prompt usage:
   dotnet ef migrations add InitialCreate --project ../WhiteLagoon.Infrastructure --startup-project ../WhiteLagoon.Web 
+
+* To run the app and act to the changes during runtime:
+  dotnet watch run
