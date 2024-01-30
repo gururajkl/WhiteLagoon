@@ -10,3 +10,5 @@ global using WhiteLagoon.Infrastructure;
 global using WhiteLagoon.Infrastructure.Data;
 global using WhiteLagoon.Infrastructure.Repository;
 global using WhiteLagoon.Web.ViewModels;
+global using Microsoft.AspNetCore.Identity;
+global using System.ComponentModel.DataAnnotations;

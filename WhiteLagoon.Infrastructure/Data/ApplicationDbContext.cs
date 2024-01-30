@@ -3,7 +3,7 @@
 /// <summary>
 /// DB Context class of application, Implemented DbContext and sets some DbSet.
 /// </summary>
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
 {
     // Pass some dbContextOptions from the Program.cs which will indirectly sent to DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
@@ -12,9 +12,13 @@ public class ApplicationDbContext : DbContext
     public DbSet<Villa> Villas { get; set; }
     public DbSet<VillaNumber> VillaNumbers { get; set; }
     public DbSet<Amenity> Amenities { get; set; }
+    // Navigation property. CLR won't create a table for this, it checks and add new fields to existing table.
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         // Seed some data to the Villa entity.
         modelBuilder.Entity<Villa>().HasData(
             new Villa

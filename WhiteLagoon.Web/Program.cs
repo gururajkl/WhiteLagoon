@@ -13,6 +13,9 @@ builder.Services.AddDbContext<ApplicationDbContext>
 builder.Services.AddScoped<IVillaRepository, VillaRepository>(); // Not using this injection right now.
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
+// Add Identity support to the application.
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
 // Build all the services.
 var app = builder.Build();
 
