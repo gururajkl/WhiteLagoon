@@ -7,7 +7,7 @@
     <div class="card-header border ml-0 py-3">
         <div class="row">
             <div class="col-12 text-center">
-                <h2 class="text-white py-2">Villa List</h2>
+                <h2 class="py-2">Villa List</h2>
             </div>
         </div>
     </div>
@@ -42,9 +42,9 @@
                         <td>@villa.Occupancy</td>
                         <td>
                             <div class="btn-group w-75" role="group">
-                                <a class="btn btn-outline-warning" asp-action="Update" asp-controller="Villa"
+                                <a class="btn btn-primary" asp-action="Update" asp-controller="Villa"
                                     asp-route-Id="@villa.Id"><i class="bi bi-pencil-fill"></i>&nbsp; Modify</a>
-                                <a class="btn btn-outline-danger" asp-action="Delete" asp-controller="Villa"
+                                <a class="btn btn-danger mx-2" asp-action="Delete" asp-controller="Villa"
                                     asp-route-Id="@villa.Id"><i class="bi bi-trash"></i>&nbsp; Delete</a>
                             </div>
                         </td>
