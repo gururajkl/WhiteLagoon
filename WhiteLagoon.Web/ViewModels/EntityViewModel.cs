@@ -1,8 +1,8 @@
 ﻿namespace WhiteLagoon.Web.ViewModels;
 
-public class VillaNumberViewModel
+public class EntityViewModel<T> where T : class
 {
-    public VillaNumber? VillaNumber { get; set; }
+    public T? Entity { get; set; }
     [ValidateNever]
     public IEnumerable<SelectListItem>? VillaList { get; set; }
 }

@@ -1,4 +1,4 @@
-﻿namespace WhiteLagoon.Web;
+﻿namespace WhiteLagoon.Web.ViewModels;
 
 public class HomeViewModel
 {

@@ -13,7 +13,7 @@ public class VillaNumberController : Controller
     public IActionResult Index()
     {
         // Include() will include the Villa to the VillaNumber as the Villa is Foreign Key. (Include props is case sensitive)
-        //context.VillaNumbers.Include(v => v.Villa).ToList();
+        // context.VillaNumbers.Include(v => v.Villa).ToList();
         IEnumerable<VillaNumber> villaNumbers = unitOfWork.VillaNumber.GetAll(null, "Villa");
         return View(villaNumbers);
     }
@@ -22,32 +22,32 @@ public class VillaNumberController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        VillaNumberViewModel villaNumber = new VillaNumberViewModel();
+        EntityViewModel<VillaNumber> villaNumber = new();
         villaNumber.VillaList = GetListItems();
         return View(villaNumber);
     }
 
     [HttpPost]
-    public IActionResult Create(VillaNumberViewModel villaNumberViewModel)
+    public IActionResult Create(EntityViewModel<VillaNumber> villaNumberViewModel)
     {
-        if (villaNumberViewModel.VillaNumber!.VillaId == 0)
+        if (villaNumberViewModel.Entity!.VillaId == 0)
         {
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
-        bool isVillaNumberUnique = unitOfWork.VillaNumber.Any(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
+        bool isVillaNumberUnique = unitOfWork.VillaNumber.Any(v => v.Villa_Number == villaNumberViewModel.Entity!.Villa_Number);
 
         if (ModelState.IsValid && !isVillaNumberUnique)
         {
-            unitOfWork.VillaNumber.Add(villaNumberViewModel.VillaNumber!);
-            TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} created successfully";
+            unitOfWork.VillaNumber.Add(villaNumberViewModel.Entity!);
+            TempData["success"] = $"VillaNumber - {villaNumberViewModel.Entity.Villa_Number} created successfully";
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
 
         if (isVillaNumberUnique)
         {
-            TempData["error"] = $"Villa - {villaNumberViewModel.VillaNumber.Villa_Number} number already exists";
+            TempData["error"] = $"Villa - {villaNumberViewModel.Entity.Villa_Number} number already exists";
         }
 
         // Populate the VillaList before sending to UI.
@@ -61,12 +61,12 @@ public class VillaNumberController : Controller
     [HttpGet]
     public IActionResult Update(int Id)
     {
-        VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
+        EntityViewModel<VillaNumber> villaNumberViewModel = new();
 
         villaNumberViewModel.VillaList = GetListItems();
-        villaNumberViewModel.VillaNumber = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
+        villaNumberViewModel.Entity = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
 
-        if (villaNumberViewModel.VillaNumber is null)
+        if (villaNumberViewModel.Entity is null)
         {
             // Not found page.
             return RedirectToAction("NotFoundPage", "Home");
@@ -78,17 +78,17 @@ public class VillaNumberController : Controller
     }
 
     [HttpPost]
-    public IActionResult Update(VillaNumberViewModel villaNumberViewModel)
+    public IActionResult Update(EntityViewModel<VillaNumber> villaNumberViewModel)
     {
-        if (villaNumberViewModel.VillaNumber!.VillaId == 0)
+        if (villaNumberViewModel.Entity!.VillaId == 0)
         {
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
         if (ModelState.IsValid)
         {
-            unitOfWork.VillaNumber.Update(villaNumberViewModel.VillaNumber!);
-            TempData["success"] = $"VillaNumber - {villaNumberViewModel.VillaNumber.Villa_Number} updated successfully";
+            unitOfWork.VillaNumber.Update(villaNumberViewModel.Entity!);
+            TempData["success"] = $"VillaNumber - {villaNumberViewModel.Entity.Villa_Number} updated successfully";
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -104,12 +104,12 @@ public class VillaNumberController : Controller
     [HttpGet]
     public IActionResult Delete(int Id)
     {
-        VillaNumberViewModel villaNumberViewModel = new VillaNumberViewModel();
+        EntityViewModel<VillaNumber> villaNumberViewModel = new();
 
         villaNumberViewModel.VillaList = GetListItems();
-        villaNumberViewModel.VillaNumber = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
+        villaNumberViewModel.Entity = unitOfWork.VillaNumber.Get(v => v.Villa_Number == Id);
 
-        if (villaNumberViewModel.VillaNumber != null)
+        if (villaNumberViewModel.Entity != null)
         {
             return View(villaNumberViewModel);
         }
@@ -117,9 +117,9 @@ public class VillaNumberController : Controller
     }
 
     [HttpPost]
-    public IActionResult Delete(VillaNumberViewModel villaNumberViewModel)
+    public IActionResult Delete(EntityViewModel<VillaNumber> villaNumberViewModel)
     {
-        VillaNumber? villaNumberFromDbToDelete = unitOfWork.VillaNumber.Get(v => v.Villa_Number == villaNumberViewModel.VillaNumber!.Villa_Number);
+        VillaNumber? villaNumberFromDbToDelete = unitOfWork.VillaNumber.Get(v => v.Villa_Number == villaNumberViewModel.Entity!.Villa_Number);
 
         if (villaNumberFromDbToDelete is not null)
         {

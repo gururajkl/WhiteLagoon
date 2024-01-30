@@ -18,7 +18,7 @@ public class AmenityController : Controller
     [HttpGet]
     public IActionResult Create()
     {
-        AmenityViewModel amenityViewModel = new AmenityViewModel
+        EntityViewModel<Amenity> amenityViewModel = new EntityViewModel<Amenity>
         {
             VillaList = GetListItems()
         };
@@ -27,17 +27,17 @@ public class AmenityController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(AmenityViewModel amenityViewModel)
+    public IActionResult Create(EntityViewModel<Amenity> amenityViewModel)
     {
-        if (amenityViewModel.Amenity!.VillaId == 0)
+        if (amenityViewModel.Entity!.VillaId == 0)
         {
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
         if (ModelState.IsValid)
         {
-            unitOfWork.Amenity.Add(amenityViewModel.Amenity);
-            TempData["success"] = $"Amentiy - {amenityViewModel.Amenity.Name} created successfully";
+            unitOfWork.Amenity.Add(amenityViewModel.Entity);
+            TempData["success"] = $"Amentiy - {amenityViewModel.Entity.Name} created successfully";
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -51,12 +51,12 @@ public class AmenityController : Controller
     [HttpGet]
     public IActionResult Update(int Id)
     {
-        AmenityViewModel amenityViewModel = new();
+        EntityViewModel<Amenity> amenityViewModel = new();
 
         amenityViewModel.VillaList = GetListItems();
-        amenityViewModel.Amenity = unitOfWork.Amenity.Get(v => v.Id == Id);
+        amenityViewModel.Entity = unitOfWork.Amenity.Get(v => v.Id == Id);
 
-        if (amenityViewModel.Amenity is null)
+        if (amenityViewModel.Entity is null)
         {
             // Not found page.
             return RedirectToAction("NotFoundPage", "Home");
@@ -68,17 +68,17 @@ public class AmenityController : Controller
     }
 
     [HttpPost]
-    public IActionResult Update(AmenityViewModel amenityViewModel)
+    public IActionResult Update(EntityViewModel<Amenity> amenityViewModel)
     {
-        if (amenityViewModel.Amenity!.VillaId == 0)
+        if (amenityViewModel.Entity!.VillaId == 0)
         {
             ModelState.AddModelError("VillaId", "Please select villa");
         }
 
         if (ModelState.IsValid)
         {
-            unitOfWork.Amenity.Update(amenityViewModel.Amenity!);
-            TempData["success"] = $"Amenity - {amenityViewModel.Amenity.Name} updated successfully";
+            unitOfWork.Amenity.Update(amenityViewModel.Entity!);
+            TempData["success"] = $"Amenity - {amenityViewModel.Entity.Name} updated successfully";
             unitOfWork.Save();
             return RedirectToAction(nameof(Index));
         }
@@ -92,12 +92,12 @@ public class AmenityController : Controller
     [HttpGet]
     public IActionResult Delete(int Id)
     {
-        AmenityViewModel amenityViewModel = new();
+        EntityViewModel<Amenity> amenityViewModel = new();
 
         amenityViewModel.VillaList = GetListItems();
-        amenityViewModel.Amenity = unitOfWork.Amenity.Get(v => v.Id == Id);
+        amenityViewModel.Entity = unitOfWork.Amenity.Get(v => v.Id == Id);
 
-        if (amenityViewModel.Amenity != null)
+        if (amenityViewModel.Entity != null)
         {
             return View(amenityViewModel);
         }
@@ -105,9 +105,9 @@ public class AmenityController : Controller
     }
 
     [HttpPost]
-    public IActionResult Delete(AmenityViewModel amenityViewModel)
+    public IActionResult Delete(EntityViewModel<Amenity> amenityViewModel)
     {
-        Amenity? amenityFromDbToDelete = unitOfWork.Amenity.Get(v => v.Id == amenityViewModel.Amenity!.Id);
+        Amenity? amenityFromDbToDelete = unitOfWork.Amenity.Get(v => v.Id == amenityViewModel.Entity!.Id);
 
         if (amenityFromDbToDelete is not null)
         {
