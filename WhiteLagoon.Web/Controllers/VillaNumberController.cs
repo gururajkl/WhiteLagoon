@@ -1,5 +1,6 @@
 ﻿namespace WhiteLagoon.Web.Controllers;
 
+[Authorize]
 public class VillaNumberController : Controller
 {
     // Injection of this type.

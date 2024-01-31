@@ -1,5 +1,6 @@
 ﻿namespace WhiteLagoon.Web.Controllers;
 
+[Authorize(Roles = StaticDetails.RoleAdmin)]
 public class AmenityController : Controller
 {
     private readonly IUnitOfWork unitOfWork;

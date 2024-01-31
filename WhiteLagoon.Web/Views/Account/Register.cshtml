@@ -1,0 +1,72 @@
+@{
+    ViewData["Title"] = "Register";
+}
+@model RegisterViewModel
+
+<div class="container pt-5 pb-5">
+    <div class="card shadow border ">
+        <div class="card-header ml-0 py-4">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="py-2">Register</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="card-body p-4">
+            <div class="row pt-3">
+                <div class="col-md-12">
+                    <form class="row" method="post">
+                        <input asp-for="RedirectUrl" hidden />
+                        <div class="form-floating mb-3 col-md-12">
+                            <input class="form-control" asp-for="Email" aria-required="true" />
+                            <label class="ms-2 text-muted" asp-for="Email"></label>
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <input asp-for="Name" class="form-control" />
+                            <label class="ms-2 text-muted">Name</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <input class="form-control" asp-for="PhoneNumber" />
+                            <label class="ms-2 text-muted">Phone Number</label>
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <input class="form-control" asp-for="Password" />
+                            <label class="ms-2 text-muted">Password</label>
+                            <span asp-validation-for="Password" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-floating mb-3 col-md-6">
+                            <input class="form-control" asp-for="ConfirmPassword" />
+                            <label class="ms-2 text-muted">Confirm Password</label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Select Role</label>
+                            <select asp-for="Role" class="form-select p-3" asp-Items="@Model.RoleList">
+                            </select>
+                        </div>
+
+                        <div class="col-12">
+                            <button type="submit" class="w-100 btn btn-lg btn-outline-success">Register</button>
+                        </div>
+                        <a asp-action="Login" style="margin-top: 13px;">Already having an account? login here</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        <partial name="_ValidationScriptsPartial" />
+    }
+}

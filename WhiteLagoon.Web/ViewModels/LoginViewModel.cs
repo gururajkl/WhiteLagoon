@@ -1,5 +1,8 @@
 ﻿namespace WhiteLagoon.Web.ViewModels;
 
+/// <summary>
+/// Viewmodel for the login with some properties.
+/// </summary>
 public class LoginViewModel
 {
     [Required]

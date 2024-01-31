@@ -1,0 +1,42 @@
+1st step: Change the Base class of the ApplicationDbContext to IdentityDbContext which is in (Microsoft.AspNetCore.Identity.EntityFrameworkCore)
+
+2nd step: Add support for the IdentityContext in program.cs as i did (refer the program.cs)
+          builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+
+** These are the 2 mandatory steps to add Identity to the application.
+
+---------------------------------------------------------------------------------
+
+* If you want to create Customer fields in the APSNETUSERS table using other class and make IdentityUser as the baseClass
+* Then base class type should be NewClass for the ApplicationDbContext
+* The change the AddIdentity type of the user to the new class
+  as: builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+* Then create new DbSet<NewClass> in the ApplicationDbContext class and then add migrations.
+
+---------------------------------------------------------------------------------
+
+* Checkout the AccountController class for injection type and role management and creating the roles.
+
+---------------------------------------------------------------------------------
+
+* Change the original password requirement.
+  builder.Services.Configure<IdentityOptions>(options => {
+    options.Password.RequiredLength = 8; 
+    options.Password.RequireDigit = true; 
+    // Many more to add.
+  });
+
+---------------------------------------------------------------------------------
+HOW TO USE IDENTITY IN VIEWS
+
+* User is the claim in the view.
+
+* injection is necessary before using that in view.
+  @inject SignInManager<ApplicationUser> signInManager
+  @inject UserManager<ApplicationUser> userManager
+
+* Then use it like this
+  !signInManager.IsSignedIn(User)
+
+* To get details of the user
+  @userManager.GetUserName(User)
