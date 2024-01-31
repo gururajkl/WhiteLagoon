@@ -5,11 +5,13 @@
 /// </summary>
 public class AccountController : Controller
 {
+    #region Helper Fields
     // Inject all the necessary required classes and interface.
     private readonly IUnitOfWork unitOfWork;
     private readonly UserManager<ApplicationUser> userManager;
     private readonly SignInManager<ApplicationUser> signInManager;
     private readonly RoleManager<IdentityRole> roleManager;
+    #endregion
 
     public AccountController(IUnitOfWork unitOfWork, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, RoleManager<IdentityRole> roleManager)
     {
@@ -41,6 +43,8 @@ public class AccountController : Controller
             var result = await signInManager.PasswordSignInAsync(loginViewModel.Email!, loginViewModel.Password!, loginViewModel.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                TempData["success"] = "Login success";
+
                 if (string.IsNullOrEmpty(loginViewModel.RedirectUrl))
                 {
                     return RedirectToAction("Index", "Home");
@@ -109,6 +113,8 @@ public class AccountController : Controller
 
             if (result.Succeeded)
             {
+                TempData["success"] = "Account created successfully";
+
                 // User has been created and make sure to add the role.
                 if (!string.IsNullOrEmpty(registerViewModel.Role))
                 {
@@ -135,6 +141,7 @@ public class AccountController : Controller
             }
             else
             {
+                // Variable to store the error message.
                 string errorMessage = "";
                 foreach (var message in result.Errors)
                 {
@@ -146,17 +153,29 @@ public class AccountController : Controller
 
                 // Populate the roles.
                 registerViewModel!.RoleList = GetRoles();
+
                 return View(registerViewModel);
             }
         }
     }
 
+    /// <summary>
+    /// Logouts the current user.
+    /// </summary>
+    /// <returns>Just goes to index</returns>
     public async Task<IActionResult> Logout()
     {
         await signInManager.SignOutAsync();
         return RedirectToAction("Login");
     }
 
+    /// <summary>
+    /// Access denied page.
+    /// As the Controller and action names are same as default no to need to configure the AccessDenied url
+    /// Can be changed in builder.Services.ConfigureExternalCookie(and set the option here).
+    /// Check out sol items for more info.
+    /// </summary>
+    /// <returns></returns>
     public IActionResult AccessDenied()
     {
         return View();
