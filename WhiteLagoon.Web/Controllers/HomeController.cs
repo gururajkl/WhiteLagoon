@@ -37,9 +37,15 @@ public class HomeController : Controller
         return View(homeViewModel);
     }
 
+    /// <summary>
+    /// Calling this method in JQuery success function and get the needed fields and to make sure that partial view only refreshes.
+    /// </summary>
+    /// <param name="nights">Nights from the UI</param>
+    /// <param name="checkInDate">CheckInDate from the UI</param>
+    /// <returns>Goes to partial view with homeViewModel</returns>
     public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
     {
-        Thread.Sleep(2000);
+        // Thread.Sleep(2000); use this to see the Loader for a while.
         IEnumerable<Villa> villaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
 
         foreach (var villa in villaList)
