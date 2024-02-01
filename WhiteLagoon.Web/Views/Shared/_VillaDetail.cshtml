@@ -2,13 +2,14 @@
 
 <div class="row">
     <div class="col-12 col-md-5">
-        <img src="@Model.ImageUrl" style="border-radius:10px;" width="100%" />
+        <img src="~/@Model.ImageUrl" style="border-radius:10px;" width="100%" />
     </div>
     <div class="col-12 col-md-7">
         <div class="row p-2">
             <div class="col-12">
                 <p class="card-title text-warning" style="font-size:xx-large">
-                    @Model.Name</p>
+                    @Model.Name
+                </p>
                 <p class="card-text" style="font-size:large">
                     @Html.Raw(Model.Description)
                 </p>
@@ -35,11 +36,13 @@
                     sqft
                 </span>
                 <br />
-                <p class="text-warning font-weight-bold pt-1">
-                    <span style=" #ff6a00">
-                        @Model.Price.ToString("c") / night
-                    </span>
-                </p>
+                <span>
+                    <p class="text-warning font-weight-bold pt-1">
+                        <span style="color: #ff6a00">
+                            @Model.Price.ToString("c") / night
+                        </span>
+                    </p>
+                </span>
             </span>
         </div>
     </div>

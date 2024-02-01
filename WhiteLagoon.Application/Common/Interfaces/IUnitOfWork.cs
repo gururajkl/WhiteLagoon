@@ -21,6 +21,11 @@ public interface IUnitOfWork
     public IAmenityRepository Amenity { get; }
 
     /// <summary>
+    /// Booking repository which has all CRUD operations.
+    /// </summary>
+    public IBookingRepository Booking { get; }
+
+    /// <summary>
     /// Saves the changes to the database.
     /// </summary>
     public void Save();

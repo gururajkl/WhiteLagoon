@@ -14,7 +14,7 @@
                             <p class="card-title text-warning" style="font-size:xx-large">@villa.Name</p>
                             <div class="pt-2">
                                 <button type="button" class="btn btn-sm btn-outline-success" data-bs-toggle="modal"
-                                    data-bs-target='#exampleModal-@(villa.Id)'>
+                                        data-bs-target='#exampleModal-@(villa.Id)'>
                                     Details
                                 </button>
                             </div>
@@ -26,14 +26,15 @@
                     <div class="col-12">
                         <div class="row pb-3 pt-2">
                             <div class="col-4">
-                                @* The checkIn date should be not today it should be next day.
-                            means, the date should be in future *@
-                                @if (Model.CheckInDate > DateOnly.FromDateTime(DateTime.Now))
+                                @* The checkIn date should be not today it should be next day. means, the date should be in future *@
+                                @if (Model.CheckInDate > DateTime.Now)
                                 {
                                     @* If villa is available *@
                                     if (villa.IsAvailable)
                                     {
-                                        <a class="btn btn-success form-control btn-block">
+                                        <a asp-action="FinalizeBooking" asp-controller="Booking" asp-route-villaId="@villa.Id"
+                                           asp-route-night="@Model.Nights" asp-route-checkInDate="@Model.CheckInDate"
+                                           class="btn btn-success form-control btn-block">
                                             Book
                                         </a>
                                     }
@@ -64,7 +65,7 @@
             </div>
 
             <div class="modal fade" id="exampleModal-@(villa.Id)" tabindex="-1" aria-labelledby="exampleModalLabel"
-                aria-hidden="true">
+                 aria-hidden="true">
                 <div class="modal-dialog modal-xl" style="border: 1px solid #aaa; border-radius:7px;">
                     <div class="modal-content">
 

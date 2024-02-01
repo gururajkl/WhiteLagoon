@@ -16,24 +16,8 @@ public class HomeController : Controller
         {
             VillaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
             Nights = 1,
-            CheckInDate = DateOnly.FromDateTime(DateTime.Now)
+            CheckInDate = DateTime.Now
         };
-        return View(homeViewModel);
-    }
-
-    [HttpPost]
-    public IActionResult Index(HomeViewModel homeViewModel)
-    {
-        homeViewModel.VillaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
-
-        foreach (var villa in homeViewModel.VillaList)
-        {
-            if (villa.Id % 2 == 0)
-            {
-                villa.IsAvailable = false;
-            }
-        }
-
         return View(homeViewModel);
     }
 
@@ -43,7 +27,8 @@ public class HomeController : Controller
     /// <param name="nights">Nights from the UI</param>
     /// <param name="checkInDate">CheckInDate from the UI</param>
     /// <returns>Goes to partial view with homeViewModel</returns>
-    public IActionResult GetVillasByDate(int nights, DateOnly checkInDate)
+    [HttpPost]
+    public IActionResult GetVillasByDate(int nights, DateTime checkInDate)
     {
         // Thread.Sleep(2000); use this to see the Loader for a while.
         IEnumerable<Villa> villaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");

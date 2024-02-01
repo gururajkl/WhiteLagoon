@@ -14,6 +14,7 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<Amenity> Amenities { get; set; }
     // Navigation property. CLR won't create a table for this, it checks and add new fields to existing table.
     public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<Booking> Bookings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
