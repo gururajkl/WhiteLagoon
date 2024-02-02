@@ -8,6 +8,7 @@ public class UnitOfWork : IUnitOfWork
     public IVillaNumberRepository VillaNumber { get; private set; }
     public IAmenityRepository Amenity { get; private set; }
     public IBookingRepository Booking { get; private set; }
+    public IApplicationUserRepository ApplicationUser { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -16,6 +17,7 @@ public class UnitOfWork : IUnitOfWork
         VillaNumber = new VillaNumberRepository(context);
         Amenity = new AmenityRepository(context);
         Booking = new BookingRepository(context);
+        ApplicationUser = new ApplicationUserRepository(context);
     }
 
     public void Save()

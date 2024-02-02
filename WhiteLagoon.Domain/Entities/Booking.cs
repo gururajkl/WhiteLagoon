@@ -12,7 +12,7 @@ public class Booking
     public int VillaId { get; set; }
     [ForeignKey(nameof(VillaId))]
     public Villa? Villa { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Name is necessary")]
     public string? Name { get; set; }
     [Required]
     public string? Email { get; set; }

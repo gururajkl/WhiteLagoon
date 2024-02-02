@@ -40,3 +40,9 @@ HOW TO USE IDENTITY IN VIEWS
 
 * To get details of the user
   @userManager.GetUserName(User)
+
+---------------------------------------------------------------------------------
+// Using claims to get the user details.
+var claimsIdentity = (ClaimsIdentity)User.Identity!;
+// Using claims to get the user id by getting the first claim.
+var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
