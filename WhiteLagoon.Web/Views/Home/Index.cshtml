@@ -7,9 +7,9 @@
     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active"
-                aria-current="true" aria-label="Slide 1"></button>
+                    aria-current="true" aria-label="Slide 1"></button>
             <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1"
-                aria-label="Slide 2"></button>
+                    aria-label="Slide 2"></button>
         </div>
         <div class="carousel-inner">
             <div class="carousel-item active" data-bs-interval="1400">
@@ -20,12 +20,12 @@
             </div>
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="prev">
+                data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators"
-            data-bs-slide="next">
+                data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -90,6 +90,15 @@
                     $("#VillasList").empty();
                     $("#VillasList").html(data);
                     $('.spinner').hide();
+
+                    // Compare checkInDate with today's date
+                    var today = new Date();
+                    var checkInDate = new Date($("#CheckInDate").val());
+
+                    // Check if checkInDate is the same as today's date
+                    if (checkInDate.toDateString() === today.toDateString()) {
+                        toastr.warning('You cannot book for today')
+                    }
                 },
                 failure: (response) => {
                     $('.spinner').hide();
@@ -102,4 +111,7 @@
             });
         }
     </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 }

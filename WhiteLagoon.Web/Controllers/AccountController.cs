@@ -104,7 +104,7 @@ public class AccountController : Controller
                 PhoneNumber = registerViewModel.PhoneNumber,
                 NormalizedEmail = registerViewModel.Email!.ToUpper(),
                 EmailConfirmed = true,
-                UserName = registerViewModel.Name,
+                UserName = registerViewModel.Email, // Make sure the userName is email here...
                 CreatedAt = DateTime.Now
             };
 
