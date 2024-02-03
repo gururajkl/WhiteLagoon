@@ -30,7 +30,7 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult GetVillasByDate(int nights, DateTime checkInDate)
     {
-        // Thread.Sleep(2000); use this to see the Loader for a while.
+        Thread.Sleep(1200); // use this to see the Loader for a while.
         IEnumerable<Villa> villaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
 
         foreach (var villa in villaList)
