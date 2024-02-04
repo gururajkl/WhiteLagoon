@@ -1,0 +1,5 @@
+* Go to https://datatables.net/ and Copy the css and JS and paste it in _Layout.cshtml file.
+
+* The checkout the booking.js file to see the usage of DataTable.
+
+* Make sure to put the Id on html table.

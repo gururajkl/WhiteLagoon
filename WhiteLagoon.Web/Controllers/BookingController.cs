@@ -14,9 +14,11 @@ public class BookingController : Controller
         this.userManager = userManager;
     }
 
+    [Authorize]
     public IActionResult Index()
     {
-        return View();
+        IEnumerable<Booking> bookings = unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
+        return View(bookings);
     }
 
     [Authorize]
@@ -119,4 +121,28 @@ public class BookingController : Controller
 
         return View(bookingId);
     }
+
+    #region API Calls
+
+    // Used for the DataTable.
+    [HttpGet]
+    [Authorize]
+    public IActionResult GetAll()
+    {
+        IEnumerable<Booking> bookings;
+
+        if (User.IsInRole(StaticDetails.RoleAdmin))
+        {
+            bookings = unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
+        }
+        else
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity!;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            bookings = unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User");
+        }
+        return Json(new { data = bookings });
+    }
+
+    #endregion
 }

@@ -1,4 +1,4 @@
-﻿@model List<Villa>
+﻿@model IEnumerable<Booking>
 @{
     ViewData["Title"] = "Booking Details";
 }
@@ -14,24 +14,55 @@
 
     <div class="card-body border rounded-bottom p-4">
 
+        @* Search Feature
+        <div class="row pb-4">
+            <form method="post">
+                <div class="col-6 text-end">
+                    <input placeholder="Search by status" class="form-control" />
+                </div>
+                <div class="col-6">
+                    <button type="submit" asp-action="SearchByStatus" class="btn btn-outline-info">Search</button>
+                </div>
+            </form>
+        </div> *@
+
+
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Name</th>
-                    <th>Phone</th>
                     <th>Email</th>
                     <th>Status</th>
-                    <th>Check In Date</th>
                     <th>Nights</th>
                     <th>Total</th>
-                    <th></th>
+                    <th>Details</th>
                 </tr>
             </thead>
 
             <tbody>
-                
+                @foreach (var booking in Model)
+                {
+                    <tr>
+                        <td>@booking.Id</td>
+                        <td>@booking.Name</td>
+                        <td>@booking.Email</td>
+                        <td>@booking.Status</td>
+                        <td>@booking.Nights</td>
+                        <td>@booking.TotalCost</td>
+                        <td>
+                            <div class="btn-group w-75" role="group">
+                                <a class="btn btn-primary" asp-action="Details" asp-controller="Amenity"
+                                   asp-route-Id="@booking.Id"><i class="bi bi-pencil-square"></i>&nbsp; Details</a>
+                            </div>
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>
 </div>
+
+@section Scripts {
+    <script src="~/js/booking.js"></script>
+}
