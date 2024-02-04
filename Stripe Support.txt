@@ -1,0 +1,28 @@
+* I have created a model with needed props for the stripe i.e, StripeIntentId, StripePaymentId in Booking.cs model.
+
+* I have create BookingRepository to manage and update the stripe details and payment information.
+
+-------------- HOW TO USE STRIPE IN APPLICATION ----------------
+
+* Go to stripe.com and create an account
+
+* Create new Account by clicking on the left top of the page.
+
+* The get the apis in here: https://dashboard.stripe.com/test/apikeys
+
+* The go to appSettings.json add these keys
+  "Stripe": {
+    "SecretKey": "sk_test_51OfhZ8SAmH3a2AeNSS30A5bbt7lnsQDFKEuQIvSjTiywlP8APkqc1sibWQeeSq6IgzVm8GdjRmDSjz2iybdzIqt8006LDCg8QJ",
+    "PublishableKey": "pk_test_51OfhZ8SAmH3a2AeNDuAihR4yAgKU5bekW7ZCfxg4I8qQUCXSgvamhBhVAC8H4LybBOuHaOLsbtlpVdltCqbKRpnJ00Y6jDpcng"
+  }
+
+* The install this Nuget: Stripe.net
+
+* Then go to Program.cs and configure APIKey for the stripe.
+  StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe:SecretKey").Get<string>();
+
+* Then go to BookingController and checkout action methods that supports the Stripe.
+
+----------------------------------------------------------------
+
+DOCS HERE: https://stripe.com/docs/payments/checkout/how-checkout-works

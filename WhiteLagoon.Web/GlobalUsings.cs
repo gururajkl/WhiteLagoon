@@ -14,3 +14,5 @@ global using Microsoft.AspNetCore.Identity;
 global using System.ComponentModel.DataAnnotations;
 global using WhiteLagoon.Application.Common.Utility;
 global using Microsoft.AspNetCore.Authorization;
+global using Stripe.Checkout;
+global using System.Security.Claims;
