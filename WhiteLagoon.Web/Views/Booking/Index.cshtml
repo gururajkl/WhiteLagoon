@@ -14,18 +14,42 @@
 
     <div class="card-body border rounded-bottom p-4">
 
-        @* Search Feature
+        @*
+        Search Feature
         <div class="row pb-4">
-            <form method="post">
-                <div class="col-6 text-end">
-                    <input placeholder="Search by status" class="form-control" />
-                </div>
-                <div class="col-6">
-                    <button type="submit" asp-action="SearchByStatus" class="btn btn-outline-info">Search</button>
-                </div>
-            </form>
-        </div> *@
+        <form method="post">
+        <div class="col-6 text-end">
+        <input placeholder="Search by status" class="form-control" />
+        </div>
+        <div class="col-6">
+        <button type="submit" asp-action="SearchByStatus" class="btn btn-outline-info">Search</button>
+        </div>
+        </form>
+        </div>
+        *@
 
+        <div class="d-flex justify-content-end pb-4 pt-2">
+            <ul class="list-group list-group-horizontal-sm">
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusPending">
+                <li class="list-group-item">@StaticDetails.StatusPending</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusApproved">
+                <li class="list-group-item">@StaticDetails.StatusApproved</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCheckIn">
+                <li class="list-group-item">@StaticDetails.StatusCheckIn</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCompleted">
+                <li class="list-group-item">@StaticDetails.StatusCompleted</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCancelled">
+                <li class="list-group-item">@StaticDetails.StatusCancelled</li>
+                </a>
+                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusRefunded">
+                <li class="list-group-item">@StaticDetails.StatusRefunded</li>
+                </a>
+            </ul>
+        </div>
 
         <table class="table table-bordered table-striped">
             <thead>
