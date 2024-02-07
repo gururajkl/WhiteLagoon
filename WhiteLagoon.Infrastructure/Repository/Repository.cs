@@ -50,7 +50,7 @@ public class Repository<T> : IRepository<T> where T : class
         {
             foreach (var includeProperty in includeProperties.Split(',', StringSplitOptions.RemoveEmptyEntries))
             {
-                entity.Include(includeProperty);
+                entity = entity.Include(includeProperty);
             }
         }
 

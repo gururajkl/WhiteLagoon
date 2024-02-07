@@ -23,6 +23,7 @@ public class BookingRepository : Repository<Booking>, IBookingRepository
         if (bookingFromDb is not null)
         {
             bookingFromDb.Status = bookingStatus;
+            bookingFromDb.IsPaymentSuccessful = true;
 
             if (bookingStatus == StaticDetails.StatusCheckIn)
             {

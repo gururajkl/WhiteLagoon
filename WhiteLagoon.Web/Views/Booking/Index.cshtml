@@ -89,8 +89,8 @@
                         <td>@booking.TotalCost</td>
                         <td>
                             <div class="btn-group w-75" role="group">
-                                <a class="btn btn-primary" asp-action="Details" asp-controller="Amenity"
-                                    asp-route-Id="@booking.Id"><i class="bi bi-pencil-square"></i>&nbsp; Details</a>
+                                <a class="btn btn-primary" asp-action="BookingDetails" asp-controller="Booking"
+                                    asp-route-bookingId="@booking.Id"><i class="bi bi-pencil-square"></i>&nbsp; Details</a>
                             </div>
                         </td>
                     </tr>

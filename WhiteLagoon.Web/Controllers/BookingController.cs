@@ -30,6 +30,13 @@ public class BookingController : Controller
     }
 
     [Authorize]
+    public IActionResult BookingDetails(int bookingId)
+    {
+        Booking bookingFromDb = unitOfWork.Booking.Get(u => u.Id == bookingId, includeProperties: "User,Villa");
+        return View(bookingFromDb);
+    }
+
+    [Authorize]
     public IActionResult FinalizeBooking(int villaId, int night, DateTime checkInDate)
     {
         // Using claims to get the user details.
