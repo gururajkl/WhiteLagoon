@@ -1,6 +1,32 @@
 ﻿@model IEnumerable<Booking>
 @{
     ViewData["Title"] = "Booking Details";
+    string? status = Context.Request.Query["status"];
+    string approved = "";
+    string pending = "";
+    string checkIn = "";
+    string completed = "";
+    string cancelled = "";
+
+    switch (status)
+    {
+        case StaticDetails.StatusPending:
+            pending = "btn btn-primary";
+            break;
+        case StaticDetails.StatusApproved:
+            approved = "btn btn-primary";
+            break;
+        case StaticDetails.StatusCheckIn:
+            checkIn = "btn btn-primary";
+            break;
+        case StaticDetails.StatusCompleted:
+            completed = "btn btn-primary";
+            break;
+        case StaticDetails.StatusCancelled:
+            cancelled = "btn btn-primary";
+            break;
+        default: break;
+    }
 }
 
 <div class="w-100 card border-0 p-4">
@@ -13,49 +39,37 @@
     </div>
 
     <div class="card-body border rounded-bottom p-4">
-
-        @*
-        Search Feature
-        <div class="row pb-4">
         <form method="post">
-        <div class="col-6 text-end">
-        <input placeholder="Search by status" class="form-control" />
-        </div>
-        <div class="col-6">
-        <button type="submit" asp-action="SearchByStatus" class="btn btn-outline-info">Search</button>
-        </div>
+            <div class="d-flex justify-content-end pb-4 pt-2">
+                <div class="btn-group" role="group">
+                    <button type="submit" class="@(string.IsNullOrEmpty(pending) ? "btn btn-secondary" : pending)"
+                        asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusPending">
+                        @StaticDetails.StatusPending
+                    </button>
+                    <button class="@(string.IsNullOrEmpty(approved) ? "btn btn-secondary" : approved)"
+                        asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusApproved">
+                        @StaticDetails.StatusApproved
+                    </button>
+                    <button class="@(string.IsNullOrEmpty(checkIn) ? "btn btn-secondary" : checkIn)"
+                        asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusCheckIn">
+                        @StaticDetails.StatusCheckIn
+                    </button>
+                    <button class="@(string.IsNullOrEmpty(completed) ? "btn btn-secondary" : completed)"
+                        asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusCompleted">
+                        @StaticDetails.StatusCompleted
+                    </button>
+                    <button class="@(string.IsNullOrEmpty(cancelled) ? "btn btn-secondary" : cancelled)"
+                        asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusCancelled">
+                        @StaticDetails.StatusCancelled
+                    </button>
+                </div>
+            </div>
         </form>
-        </div>
-        *@
-
-        <div class="d-flex justify-content-end pb-4 pt-2">
-            <ul class="list-group list-group-horizontal-sm">
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusPending">
-                <li class="list-group-item">@StaticDetails.StatusPending</li>
-                </a>
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusApproved">
-                <li class="list-group-item">@StaticDetails.StatusApproved</li>
-                </a>
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCheckIn">
-                <li class="list-group-item">@StaticDetails.StatusCheckIn</li>
-                </a>
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCompleted">
-                <li class="list-group-item">@StaticDetails.StatusCompleted</li>
-                </a>
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusCancelled">
-                <li class="list-group-item">@StaticDetails.StatusCancelled</li>
-                </a>
-                <a style="text-decoration:none;" asp-controller="Booking" asp-action="Index" asp-route-Id="@StaticDetails.StatusRefunded">
-                <li class="list-group-item">@StaticDetails.StatusRefunded</li>
-                </a>
-            </ul>
-        </div>
 
         <table class="table table-bordered table-striped">
             <thead>
                 <tr>
                     <th>ID</th>
-                    <th>Name</th>
                     <th>Email</th>
                     <th>Status</th>
                     <th>Nights</th>
@@ -69,7 +83,6 @@
                 {
                     <tr>
                         <td>@booking.Id</td>
-                        <td>@booking.Name</td>
                         <td>@booking.Email</td>
                         <td>@booking.Status</td>
                         <td>@booking.Nights</td>
@@ -77,7 +90,7 @@
                         <td>
                             <div class="btn-group w-75" role="group">
                                 <a class="btn btn-primary" asp-action="Details" asp-controller="Amenity"
-                                   asp-route-Id="@booking.Id"><i class="bi bi-pencil-square"></i>&nbsp; Details</a>
+                                    asp-route-Id="@booking.Id"><i class="bi bi-pencil-square"></i>&nbsp; Details</a>
                             </div>
                         </td>
                     </tr>

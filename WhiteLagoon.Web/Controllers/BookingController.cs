@@ -15,10 +15,18 @@ public class BookingController : Controller
     }
 
     [Authorize]
-    public IActionResult Index()
+    public IActionResult Index(string? status = null)
     {
-        IEnumerable<Booking> bookings = unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
-        return View(bookings);
+        if (status == null)
+        {
+            IEnumerable<Booking> bookings = unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
+            return View(bookings);
+        }
+        else
+        {
+            IEnumerable<Booking> bookingsBasedOnStatus = unitOfWork.Booking.GetAll(b => b.Status == status, includeProperties: "Villa,User");
+            return View(bookingsBasedOnStatus);
+        }
     }
 
     [Authorize]

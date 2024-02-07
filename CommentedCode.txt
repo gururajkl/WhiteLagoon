@@ -1,0 +1,13 @@
+            @*
+            Search Feature
+            <div class="row pb-4">
+            <form method="post">
+            <div class="col-6 text-end">
+            <input placeholder="Search by status" class="form-control" />
+            </div>
+            <div class="col-6">
+            <button type="submit" asp-action="SearchByStatus" class="btn btn-outline-info">Search</button>
+            </div>
+            </form>
+            </div>
+            *@
