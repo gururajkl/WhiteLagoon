@@ -65,7 +65,7 @@ public class BookingController : Controller
         {
             LineItems = new List<SessionLineItemOptions>(),
             Mode = "payment",
-            CustomerEmail = userManager.GetUserName(User),
+            CustomerEmail = booking.Email,
             BillingAddressCollection = "required",
             SuccessUrl = domain + $"booking/BookingConfirmation?bookingId={booking.Id}",
             CancelUrl = domain + $"booking/FinalizeBooking?villaId={booking.VillaId}&night={booking.Nights}&checkInDate={booking.CheckInDate}",
