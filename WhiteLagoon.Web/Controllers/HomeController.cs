@@ -31,14 +31,15 @@ public class HomeController : Controller
     public IActionResult GetVillasByDate(int nights, DateTime checkInDate)
     {
         Thread.Sleep(1200); // use this to see the Loader for a while.
-        IEnumerable<Villa> villaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity");
+
+        List<Villa> villaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity").ToList();
+        List<Booking> bookings = unitOfWork.Booking.GetAll(u => u.Status == StaticDetails.StatusApproved || u.Status == StaticDetails.StatusCheckIn).ToList();
+        List<VillaNumber> villaNumbers = unitOfWork.VillaNumber.GetAll().ToList();
 
         foreach (var villa in villaList)
         {
-            if (villa.Id % 2 == 0)
-            {
-                villa.IsAvailable = false;
-            }
+            int roomAvailable = StaticDetails.VillaRoomsAvailableCount(villa.Id, villaNumbers, checkInDate, nights, bookings);
+            villa.IsAvailable = roomAvailable > 0 ? true : false;
         }
 
         HomeViewModel homeViewModel = new()
