@@ -33,7 +33,36 @@ public class BookingController : Controller
     public IActionResult BookingDetails(int bookingId)
     {
         Booking bookingFromDb = unitOfWork.Booking.Get(u => u.Id == bookingId, includeProperties: "User,Villa");
+
+        if (bookingFromDb.VillaNumber == 0 && bookingFromDb.Status == StaticDetails.StatusApproved)
+        {
+            var availableVillaList = AssignVillaNumberByVilla(bookingFromDb.VillaId);
+            bookingFromDb.VillaNumbers = unitOfWork.VillaNumber.GetAll(u => u.VillaId == bookingFromDb.VillaId
+            && availableVillaList.Any(x => x == u.Villa_Number)).ToList();
+        }
+
         return View(bookingFromDb);
+    }
+
+    private List<int> AssignVillaNumberByVilla(int villaId)
+    {
+        // Get villa numbers based on villa.
+        var villaNumbers = unitOfWork.VillaNumber.GetAll(u => u.VillaId == villaId).ToList();
+
+        // Get bookings based on villa and checkIn status.
+        var checkedInVilla = unitOfWork.Booking.GetAll(u => u.VillaId == villaId && u.Status == StaticDetails.StatusCheckIn).Select(u => u.VillaNumber).ToList();
+
+        List<int> availableVillaNumber = new();
+
+        foreach (var villaNumber in villaNumbers)
+        {
+            if (!checkedInVilla.Contains(villaNumber.Villa_Number))
+            {
+                availableVillaNumber.Add(villaNumber.Villa_Number);
+            }
+        }
+
+        return availableVillaNumber;
     }
 
     [Authorize]
@@ -128,7 +157,7 @@ public class BookingController : Controller
             if (session.PaymentStatus == "paid")
             {
                 // Update status and paymentIntentId.
-                unitOfWork.Booking.UpdateStatus(bookingId, StaticDetails.StatusApproved);
+                unitOfWork.Booking.UpdateStatus(bookingId, StaticDetails.StatusApproved, 0);
                 unitOfWork.Booking.UpdateStripePaymentId(bookingFromDb.Id, session.Id, session.PaymentIntentId);
                 unitOfWork.Save();
             }

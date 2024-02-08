@@ -12,6 +12,6 @@
     </div>
     <div class="col-12 text-center text-warning">
         <p class="pt-4">Pack your bags! You are one step closer to an amazing vacation!</p>
-        <a asp-action="Index" asp-controller="Home" class="btn btn-success">Go Home</a>
+        <a asp-action="Index" asp-route-status="@StaticDetails.StatusApproved" asp-controller="Booking" class="btn btn-success">Checkout Bookings</a>
     </div>
 </div>

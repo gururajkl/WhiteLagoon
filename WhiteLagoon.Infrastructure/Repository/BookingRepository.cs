@@ -16,7 +16,7 @@ public class BookingRepository : Repository<Booking>, IBookingRepository
         context.Bookings.Update(booking);
     }
 
-    public void UpdateStatus(int bookingId, string bookingStatus)
+    public void UpdateStatus(int bookingId, string bookingStatus, int villaNumber = 0)
     {
         Booking bookingFromDb = context.Bookings.FirstOrDefault(b => b.Id == bookingId)!;
 
@@ -28,6 +28,7 @@ public class BookingRepository : Repository<Booking>, IBookingRepository
             if (bookingStatus == StaticDetails.StatusCheckIn)
             {
                 bookingFromDb.ActualCheckInDate = DateTime.Now;
+                bookingFromDb.VillaNumber = villaNumber;
             }
 
             if (bookingStatus == StaticDetails.StatusCompleted)
