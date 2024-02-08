@@ -36,7 +36,7 @@
             <form method="post">
                 <input asp-for="VillaId" hidden />
                 <input asp-for="UserId" hidden />
-                <input asp-for="CheckInDate" hidden />
+                <input type="datetime" asp-for="CheckInDate" hidden />
                 <input asp-for="CheckOutDate" hidden />
                 <input asp-for="Nights" hidden />
 
@@ -63,13 +63,11 @@
                 </div>
                 <div class="form-group pt-2">
                     <label class="text-warning">Check in Date</label>
-                    <input value="@Model.CheckInDate.ToString("d")" type="datetime" asp-for="CheckInDate" disabled
-                        class="form-control" />
+                    <input type="datetime" value="@Model.CheckInDate.ToString("d")" disabled class="form-control" />
                 </div>
                 <div class="form-group pt-2">
                     <label class="text-warning">Check Out Date</label>
-                    <input asp-for="CheckOutDate" type="datetime" value="@Model.CheckOutDate.ToString("d")" disabled
-                        class="form-control" />
+                    <input type="datetime" value="@Model.CheckOutDate.ToString("d")" disabled class="form-control" />
                 </div>
                 <div class="form-group pt-2">
                     <label class="text-warning">No. of nights</label>
