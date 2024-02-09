@@ -86,7 +86,7 @@
                         <td>@booking.Email</td>
                         <td>@booking.Status</td>
                         <td>@booking.Nights</td>
-                        <td>@booking.TotalCost</td>
+                        <td>@booking.TotalCost.ToString("c")</td>
                         <td>
                             <div class="btn-group w-75" role="group">
                                 <a class="btn btn-primary" asp-action="BookingDetails" asp-controller="Booking"

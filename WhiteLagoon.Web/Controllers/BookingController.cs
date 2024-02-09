@@ -1,4 +1,6 @@
-﻿namespace WhiteLagoon.Web.Controllers;
+﻿using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+
+namespace WhiteLagoon.Web.Controllers;
 
 /// <summary>
 /// Controller used to manage booking.
@@ -17,15 +19,24 @@ public class BookingController : Controller
     [Authorize]
     public IActionResult Index(string? status = null)
     {
-        if (status == null)
+        IEnumerable<Booking> bookings;
+
+        if (string.IsNullOrEmpty(status))
         {
-            IEnumerable<Booking> bookings = unitOfWork.Booking.GetAll(includeProperties: "Villa,User");
+            status = StaticDetails.StatusApproved;
+        }
+
+        if (User.IsInRole(StaticDetails.RoleAdmin))
+        {
+            bookings = unitOfWork.Booking.GetAll(b => b.Status == status, includeProperties: "Villa,User");
             return View(bookings);
         }
         else
         {
-            IEnumerable<Booking> bookingsBasedOnStatus = unitOfWork.Booking.GetAll(b => b.Status == status, includeProperties: "Villa,User");
-            return View(bookingsBasedOnStatus);
+            var claimsIdentity = (ClaimsIdentity)User.Identity!;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+            bookings = unitOfWork.Booking.GetAll(u => u.UserId == userId, includeProperties: "Villa,User").Where(u => u.Status == status);
+            return View(bookings);
         }
     }
 
@@ -37,8 +48,7 @@ public class BookingController : Controller
         if (bookingFromDb.VillaNumber == 0 && bookingFromDb.Status == StaticDetails.StatusApproved)
         {
             var availableVillaList = AssignVillaNumberByVilla(bookingFromDb.VillaId);
-            bookingFromDb.VillaNumbers = unitOfWork.VillaNumber.GetAll(u => u.VillaId == bookingFromDb.VillaId
-            && availableVillaList.Any(x => x == u.Villa_Number)).ToList();
+            bookingFromDb.VillaNumbers = unitOfWork.VillaNumber.GetAll(u => u.VillaId == bookingFromDb.VillaId && availableVillaList.Any(x => x == u.Villa_Number)).ToList();
         }
 
         return View(bookingFromDb);
@@ -63,6 +73,36 @@ public class BookingController : Controller
         }
 
         return availableVillaNumber;
+    }
+
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
+    [HttpPost]
+    public IActionResult CheckIn(Booking booking)
+    {
+        unitOfWork.Booking.UpdateStatus(booking.Id, StaticDetails.StatusCheckIn, booking.VillaNumber);
+        unitOfWork.Save();
+        TempData["success"] = "Booking updated successfully";
+        return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
+    }
+
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
+    [HttpPost]
+    public IActionResult CheckOut(Booking booking)
+    {
+        unitOfWork.Booking.UpdateStatus(booking.Id, StaticDetails.StatusCompleted, booking.VillaNumber);
+        unitOfWork.Save();
+        TempData["success"] = "Booking completed successfully";
+        return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
+    }
+
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
+    [HttpPost]
+    public IActionResult CancelBooking(Booking booking)
+    {
+        unitOfWork.Booking.UpdateStatus(booking.Id, StaticDetails.StatusCancelled, 0);
+        unitOfWork.Save();
+        TempData["success"] = "Booking cancelled successfully";
+        return RedirectToAction(nameof(BookingDetails), new { bookingId = booking.Id });
     }
 
     [Authorize]
@@ -100,6 +140,22 @@ public class BookingController : Controller
         booking.TotalCost = villa.Price * booking.Nights;
         booking.Status = StaticDetails.StatusPending;
         booking.BookingDate = DateTime.Now;
+
+        List<Booking> bookings = unitOfWork.Booking.GetAll(u => u.Status == StaticDetails.StatusApproved || u.Status == StaticDetails.StatusCheckIn).ToList();
+        List<VillaNumber> bookedVillaNumbers = unitOfWork.VillaNumber.GetAll().ToList();
+
+        // If no rooms are available.
+        int roomAvailable = StaticDetails.VillaRoomsAvailableCount(villa.Id, bookedVillaNumbers, booking.CheckInDate, booking.Nights, bookings);
+        if (roomAvailable == 0)
+        {
+            TempData["error"] = "Room has been sold out";
+            return RedirectToAction(nameof(FinalizeBooking), new
+            {
+                villaId = booking.VillaId,
+                night = booking.Nights,
+                checkInDate = booking.CheckInDate
+            });
+        }
 
         unitOfWork.Booking.Add(booking);
         unitOfWork.Save();

@@ -12,7 +12,8 @@
                     <h3 class="text-success">Villa Details</h3>
                 </div>
                 <div class="col-6 text-end">
-                    <a asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusApproved" class="btn btn-secondary my-2">
+                    <a asp-controller="Booking" asp-action="Index" asp-route-status="@StaticDetails.StatusApproved"
+                        class="btn btn-secondary my-2">
                         <i class="bi bi-arrow-left-circle"></i> Back to Bookings
                     </a>
                 </div>
@@ -31,22 +32,33 @@
                 </div>
             </div>
         </div>
+
         <div class="col-12 col-lg-6 p-4 2 mt-4 mt-md-0" style="border-left:1px solid #aaa">
             <form method="post">
+                <input asp-for="VillaId" hidden />
+                <input asp-for="Id" hidden />
+                <input asp-for="UserId" hidden />
+                <input type="datetime" asp-for="CheckInDate" hidden />
+                <input asp-for="CheckOutDate" hidden />
+                <input asp-for="Nights" hidden />
+                @* <input asp-for="VillaNumber" hidden /> *@
 
                 <div class="row pt-1 mb-3 " style="border-radius:20px; ">
                     <div class="col-6">
                         <h3 class="text-success">Enter Booking Details</h3>
                     </div>
                     <div class="col-6">
-                        @if (Model.Status == StaticDetails.StatusPending || Model.Status == StaticDetails.StatusApproved && User.IsInRole(StaticDetails.RoleAdmin))
+                        @if (Model.Status == StaticDetails.StatusPending || Model.Status == StaticDetails.StatusApproved
+                        && User.IsInRole(StaticDetails.RoleAdmin))
                         {
-                            <button type="submit" class="btn btn-sm btn-outline-danger form-control my-1">
+                            <button asp-controller="Booking" asp-action="CancelBooking" type="submit"
+                                class="btn btn-sm btn-outline-danger form-control my-1">
                                 <i class="bi bi-x-circle"></i> &nbsp; Cancel Booking
                             </button>
                         }
                     </div>
                 </div>
+
                 <div class="row">
                     <div class="form-group pt-2 col-6">
                         <label class="text-warning">Name</label>
@@ -81,15 +93,38 @@
                         <input asp-for="ActualCheckInDate" disabled class="form-control" />
                     </div>
 
-
                     <div class="form-group pt-2 col-6">
                         <label class="text-warning">Check-out Date</label>
                         <input asp-for="CheckOutDate" disabled class="form-control" />
                     </div>
-                    <div class="form-group pt-2 col-6">
-                        <label class="text-warning">Actual Check-out Date</label>
-                        <input asp-for="ActualCheckOutDate" disabled class="form-control" />
-                    </div>
+
+                    @* Assign the villa number to the user *@
+                    @if (Model.Status == StaticDetails.StatusApproved && User.IsInRole(StaticDetails.RoleAdmin))
+                    {
+                        <div class="form-group pt-2 col-6">
+                            <label class="text-danger">Villa Number</label>
+
+                            <select asp-for="VillaNumber" class="form-select">
+                                @foreach (var villaNumber in Model.VillaNumbers!)
+                                {
+                                    <option value="@villaNumber.Villa_Number">@villaNumber.Villa_Number</option>
+                                }
+                            </select>
+                        </div>
+                    }
+                    @* If the user is checked in or he's checked out display the villa number directly *@
+                    else
+                    {
+                        <input asp-for="VillaNumber" hidden />
+
+                        if (Model.Status == StaticDetails.StatusCheckIn || Model.Status == StaticDetails.StatusCompleted)
+                        {
+                            <div class="form-group pt-2 col-6">
+                                <label class="text-warning">Villa Number Assigned</label>
+                                <input asp-for="VillaNumber" disabled class="form-control" />
+                            </div>
+                        }
+                    }
 
                     @if (Model.IsPaymentSuccessful && User.IsInRole(StaticDetails.RoleAdmin))
                     {
@@ -113,13 +148,15 @@
                     {
                         if (Model.Status == StaticDetails.StatusApproved)
                         {
-                            <button type="submit" class="btn btn-warning form-control my-1">
+                            <button asp-controller="Booking" asp-action="CheckIn" type="submit"
+                                class="btn btn-warning form-control my-1">
                                 <i class="bi bi-check2-square"></i> &nbsp; Check In
                             </button>
                         }
                         if (Model.Status == StaticDetails.StatusCheckIn)
                         {
-                            <button type="submit" class="btn btn-success form-control my-1">
+                            <button asp-controller="Booking" asp-action="CheckOut" type="submit"
+                                class="btn btn-success form-control my-1">
                                 <i class="bi bi-clipboard2-check"></i> &nbsp; Check Out / Complete Booking
                             </button>
                         }

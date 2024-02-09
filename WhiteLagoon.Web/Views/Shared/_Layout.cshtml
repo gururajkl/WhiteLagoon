@@ -38,38 +38,49 @@
                         <li class="nav-item">
                             <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                                aria-expanded="false">
-                                Content Management
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Villa" asp-action="Index">Villas</a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">
-                                        Villa
-                                        Number
-                                    </a>
-                                </li>
-                                <li>
-                                    <hr class="dropdown-divider">
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Amenity" asp-action="Index">
-                                        Villa
-                                        Amenities
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="dropdown-item" asp-controller="Booking" asp-action="Index"
-                                        asp-route-status="@StaticDetails.StatusApproved">
-                                        Booking Details
-                                    </a>
-                                </li>
-                            </ul>
-                        </li>
+                        @if (User.IsInRole(StaticDetails.RoleAdmin))
+                        {
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                                    aria-expanded="false">
+                                    Content Management
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Villa" asp-action="Index">Villas</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="VillaNumber" asp-action="Index">
+                                            Villa
+                                            Number
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Amenity" asp-action="Index">
+                                            Villa
+                                            Amenities
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" asp-controller="Booking" asp-action="Index"
+                                            asp-route-status="@StaticDetails.StatusApproved">
+                                            Booking Details
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Booking" asp-action="Index">
+                                    Manage Booking
+                                </a>
+                            </li>
+                        }
                         <li class="nav-item">
                             <a style="cursor: pointer;" title="Switch Theme (Removed for now)" onclick="SwitchTheme()"
                                 class="nav-link">
