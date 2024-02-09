@@ -43,6 +43,12 @@ public class AccountController : Controller
             var result = await signInManager.PasswordSignInAsync(loginViewModel.Email!, loginViewModel.Password!, loginViewModel.RememberMe, lockoutOnFailure: false);
             if (result.Succeeded)
             {
+                var user = await userManager.FindByEmailAsync(loginViewModel.Email!);
+                if (await userManager.IsInRoleAsync(user!, StaticDetails.RoleAdmin))
+                {
+                    return RedirectToAction("Index", "Dashboard");
+                }
+
                 TempData["success"] = "Login success";
 
                 if (string.IsNullOrEmpty(loginViewModel.RedirectUrl))
@@ -128,6 +134,12 @@ public class AccountController : Controller
 
                 // SignIn the user.
                 await signInManager.SignInAsync(applicationUser, false);
+
+                var user = await userManager.FindByEmailAsync(registerViewModel.Email!);
+                if (await userManager.IsInRoleAsync(user!, StaticDetails.RoleAdmin))
+                {
+                    return RedirectToAction("Index", "Dashboard");
+                }
 
                 // If there is something in redirect url go there.
                 if (string.IsNullOrEmpty(registerViewModel.RedirectUrl))
