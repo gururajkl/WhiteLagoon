@@ -1,0 +1,29 @@
+﻿@inject SignInManager<ApplicationUser> signInManager
+@inject UserManager<ApplicationUser> userManager
+
+<ul class="navbar-nav d-none d-md-flex mav-login">
+    @{
+        // Displaying Name instead of email.
+        ApplicationUser? user = null;
+
+        // Using claims to get the user details.
+        var claimsIdentity = (ClaimsIdentity)User.Identity!;
+
+        // Using claims to get the user id by getting the first claim.
+        var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier)!.Value;
+
+        if (userId is not null)
+        {
+            user = await userManager.FindByIdAsync(userId);
+        }
+
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" area-expanded="false">
+                Hello, @(user is null ? "" : user.Name) 👋
+            </a>
+            <ul class="dropdown-menu" area-labelledby="navbarDropdown">
+                <a asp-controller="Account" asp-action="Logout" class="nav-link text-center">Logout</a>
+            </ul>
+        </li>
+    }
+</ul>
