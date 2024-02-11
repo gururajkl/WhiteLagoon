@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
-
-namespace WhiteLagoon.Web.Controllers;
+﻿namespace WhiteLagoon.Web.Controllers;
 
 /// <summary>
 /// Controller used to manage booking.

@@ -24,7 +24,7 @@ public interface IUnitOfWork
     /// Booking repository which has all CRUD operations.
     /// </summary>
     public IBookingRepository Booking { get; }
-    
+
     /// <summary>
     /// ApplicationUser repository which has all CRUD operations.
     /// </summary>
