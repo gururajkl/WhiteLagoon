@@ -60,6 +60,25 @@ public class DashboardController : Controller
         return Json(GetRadialChartDataModel(totalRevenue, countByCurrentMonth, countByPreviousMonth));
     }
 
+    public IActionResult GetBookingPieChartData()
+    {
+        var totalBookings = unitOfWork.Booking.GetAll(u => u.BookingDate >= DateTime.Now.AddDays(-30) &&
+        (u.Status != StaticDetails.StatusPending || u.Status != StaticDetails.StatusCancelled));
+
+        var customerWithOneBooking = totalBookings.GroupBy(b => b.UserId).Where(x => x.Count() == 1).Select(x => x.Key).ToList();
+
+        int bookingByNewCustomer = customerWithOneBooking.Count();
+        int bookingByReturningCustomer = totalBookings.Count() - bookingByNewCustomer;
+
+        PieChartViewModel pieChartViewModel = new()
+        {
+            Labels = new string[] { "New Customer Booking", "Returning Customer Booking" },
+            Series = new decimal[] { bookingByNewCustomer, bookingByReturningCustomer }
+        };
+
+        return Json(pieChartViewModel);
+    }
+
     private static RadialBarChartViewModel GetRadialChartDataModel(int totalCount, double currentMonthCount, double prevMonthCount)
     {
         RadialBarChartViewModel radialBarChartViewModel = new();
