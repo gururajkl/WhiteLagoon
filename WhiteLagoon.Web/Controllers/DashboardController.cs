@@ -1,5 +1,6 @@
 ﻿namespace WhiteLagoon.Web.Controllers;
 
+[Authorize(Roles = StaticDetails.RoleAdmin)]
 public class DashboardController : Controller
 {
     private readonly IUnitOfWork unitOfWork;

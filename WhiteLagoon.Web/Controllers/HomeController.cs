@@ -21,6 +21,17 @@ public class HomeController : Controller
         return View(homeViewModel);
     }
 
+    public IActionResult AdminIndex()
+    {
+        HomeViewModel homeViewModel = new()
+        {
+            VillaList = unitOfWork.Villa.GetAll(includeProperties: "VillaAmenity"),
+            Nights = 1,
+            CheckInDate = DateTime.Now
+        };
+        return View(homeViewModel);
+    }
+
     /// <summary>
     /// Calling this method in JQuery success function and get the needed fields and to make sure that partial view only refreshes.
     /// </summary>

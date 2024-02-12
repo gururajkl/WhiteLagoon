@@ -1,0 +1,91 @@
+@{
+    ViewData["Title"] = "Admin";
+}
+@model HomeViewModel
+
+<div>
+    <form method="post" asp-action="GetVillasByDate">
+        <div class="row p-0 mx-0 py-4">
+            <div class="col-12 col-md-5 offset-md-1">
+                <div class="form-group">
+                    <label>Check In Date</label>
+                    <input asp-for="CheckInDate" type="date" class="form-control" />
+                </div>
+            </div>
+
+            <div class="col-6 col-md-3 pl-2 pr-2">
+                <div class="form-group">
+                    <label>No. of nights</label>
+                    <select class="form-select" asp-for="Nights">
+                        @for (int i = 1; i <= 10; i++)
+                        {
+                            <option value="@i">@i</option>
+                        }
+                    </select>
+                </div>
+            </div>
+
+            <div class="col-6 col-md-2 pt-4 pr-2">
+                <div class="form-group">
+                    <button type="button" onclick="loadVillaList()" class="btn btn-outline-success btn-block">
+                        <i class="bi bi-search"></i> &nbsp; Check Availability
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="loading spinner" style="display:none;"></div>
+        <partial name="_VillaList" model="@Model" />
+    </form>
+</div>
+
+@section Scripts {
+    <script type="text/javascript">
+        function loadVillaList() {
+            $('.spinner').show();
+
+            // new object with below data.
+            var objectData = {
+                checkInDate: $("#CheckInDate").val(),
+                nights: $("#Nights").val()
+            };
+
+            // JQuery function.
+            $.ajax({
+                // GetVillasByDate in HomeController.
+                url: "@Url.Action("GetVillasByDate", "Home")",
+                // Set the data.
+                data: objectData,
+                // Since GetVillasByDate is the POST method.
+                type: "POST",
+                success: function (data) {
+                    $("#VillasList").empty();
+                    $("#VillasList").html(data);
+                    $('.spinner').hide();
+
+                    // Compare checkInDate with today's date
+                    var today = new Date();
+                    var checkInDate = new Date($("#CheckInDate").val());
+
+                    // Check if checkInDate is the same as today's date
+                    if (checkInDate.toDateString() === today.toDateString()) {
+                        toastr.warning('You cannot book for today')
+                    }
+                },
+                failure: (response) => {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                },
+                error: (response) => {
+                    $('.spinner').hide();
+                    alert(response.responseText);
+                }
+            });
+        }
+    </script>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"
+        integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+}

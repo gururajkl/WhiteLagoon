@@ -28,7 +28,14 @@
         }
 
         <li class="nav-item">
-            <a class="nav-link">Hello, @(user is null ? "" : user.Name) 👋</a>
+            @if (User.IsInRole(StaticDetails.RoleAdmin))
+            {
+                <a class="nav-link">Hi, Admin @(user is null ? "" : user.Name) 👋</a>
+            }
+            else
+            {
+                <a class="nav-link">Hello, @(user is null ? "" : user.Name) 👋</a>
+            }
         </li>
         <li class="nav-item">
             <a asp-controller="Account" asp-action="Logout" class="nav-link">Logout</a>
