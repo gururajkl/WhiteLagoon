@@ -1,6 +1,6 @@
 ﻿namespace WhiteLagoon.Web.Controllers;
 
-[Authorize]
+[Authorize(Roles = StaticDetails.RoleAdmin)]
 public class VillaNumberController : Controller
 {
     // Injection of this type.

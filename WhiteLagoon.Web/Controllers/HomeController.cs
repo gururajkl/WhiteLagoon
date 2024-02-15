@@ -18,9 +18,18 @@ public class HomeController : Controller
             Nights = 1,
             CheckInDate = DateTime.Now
         };
-        return View(homeViewModel);
+
+        if (!User.IsInRole(StaticDetails.RoleAdmin))
+        {
+            return View(homeViewModel);
+        }
+        else
+        {
+            return RedirectToAction(nameof(AdminIndex));
+        }
     }
 
+    [Authorize(Roles = StaticDetails.RoleAdmin)]
     public IActionResult AdminIndex()
     {
         HomeViewModel homeViewModel = new()

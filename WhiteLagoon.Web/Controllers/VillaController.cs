@@ -3,7 +3,7 @@
 /// <summary>
 /// Villa controller used for villa CRUD.
 /// </summary>
-[Authorize]
+[Authorize(Roles = StaticDetails.RoleAdmin)]
 public class VillaController : Controller
 {
     private readonly IUnitOfWork unitOfWork;
