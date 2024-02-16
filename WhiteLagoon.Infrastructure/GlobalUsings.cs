@@ -7,3 +7,5 @@ global using WhiteLagoon.Application.Common.Interfaces;
 global using WhiteLagoon.Domain.Entities;
 global using WhiteLagoon.Infrastructure.Data;
 global using WhiteLagoon.Infrastructure.Repository;
+global using Microsoft.AspNetCore.Identity;
+global using WhiteLagoon.Application.Common.Utility;

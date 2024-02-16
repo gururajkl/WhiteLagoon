@@ -78,13 +78,6 @@ public class AccountController : Controller
             RedirectUrl = returnUrl,
         };
 
-        // Create roles.
-        if (!roleManager.RoleExistsAsync(StaticDetails.RoleAdmin).GetAwaiter().GetResult())
-        {
-            roleManager.CreateAsync(new IdentityRole(StaticDetails.RoleAdmin)).Wait();
-            roleManager.CreateAsync(new IdentityRole(StaticDetails.RoleCustomer)).Wait();
-        }
-
         registerViewModel.RoleList = GetRoles();
 
         return View(registerViewModel);

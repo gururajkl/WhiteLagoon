@@ -16,3 +16,6 @@ global using WhiteLagoon.Infrastructure;
 global using WhiteLagoon.Infrastructure.Data;
 global using WhiteLagoon.Infrastructure.Repository;
 global using WhiteLagoon.Web.ViewModels;
+global using Stripe;
+global using WhiteLagoon.Application.Services.Implementation;
+global using WhiteLagoon.Application.Services.Interface;

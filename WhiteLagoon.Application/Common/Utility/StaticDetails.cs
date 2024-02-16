@@ -81,4 +81,22 @@ public static class StaticDetails
 
         return finalAvailableRoomsForAllNights;
     }
+
+    public static RadialBarChartDTO GetRadialChartDataModel(int totalCount, double currentMonthCount, double prevMonthCount)
+    {
+        RadialBarChartDTO radialBarChartDTO = new();
+        int increaseDecreaseRatio = 100;
+
+        if (prevMonthCount != 0)
+        {
+            increaseDecreaseRatio = Convert.ToInt32((currentMonthCount - prevMonthCount) / prevMonthCount * 100);
+        }
+
+        radialBarChartDTO.TotalCount = totalCount;
+        radialBarChartDTO.CountInCurrentMonth = Convert.ToInt32(currentMonthCount);
+        radialBarChartDTO.HasRatioIncreased = currentMonthCount > prevMonthCount;
+        radialBarChartDTO.Series = new int[] { increaseDecreaseRatio };
+
+        return radialBarChartDTO;
+    }
 }
